@@ -1,6 +1,9 @@
 package com.niit.collabrationbackend;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +33,22 @@ public class RoleTestCase {
 	
 	@Test
 	public void addUpdateUserRoleTestCase(){
-		userRole.setRoleId(5);
-		userRole.setRoleName("Super");
-		userRole.setStatus('Y');
+		userRole.setRoleName("Admin");
+		userRole.setStatus('1');
 		assertEquals("addUpdateUserRoleTestCase",userRoleDao.userRoleSaveOrUpdate(userRole),true);
 	}
 	
+	@Test
+	public void GeUserRoleListTestCase(){
+		List<UserRole> usrrole = userRoleDao.getAllUserRoles();
+		int noOfRows = usrrole.size();
+		assertEquals("GeUserRoleListTestCase",noOfRows,6);
+	}
+	
+	@Test
+	public void RemoveUserRoleTestCase(){
+		userRole.setRoleId(5);
+		assertEquals("RemoveUserRoleTestCase",userRoleDao.removeUserRole(userRole.getRoleId()),true);
+	}
 
 }

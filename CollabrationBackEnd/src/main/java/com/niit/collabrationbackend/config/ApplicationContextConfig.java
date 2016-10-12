@@ -11,6 +11,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.niit.collabrationbackend.Model.UserDetail;
 import com.niit.collabrationbackend.Model.UserRole;
 
 @Configuration
@@ -40,7 +42,8 @@ public class ApplicationContextConfig {
 	public SessionFactory getSessionFactory(DataSource dataSource){
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
-		sessionBuilder.addAnnotatedClass(UserRole.class);	
+		sessionBuilder.addAnnotatedClass(UserRole.class);
+		sessionBuilder.addAnnotatedClass(UserDetail.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 	
