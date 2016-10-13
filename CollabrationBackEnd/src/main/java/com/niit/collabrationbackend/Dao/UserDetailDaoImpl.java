@@ -18,7 +18,7 @@ import com.niit.collabrationbackend.Model.UserDetail;
 @Repository("userDetailDao")
 public class UserDetailDaoImpl implements UserDetailDao {
 	
-	private static final Logger log = LoggerFactory.getLogger(UserRoleDaoImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(UserDetailDaoImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -44,15 +44,15 @@ public class UserDetailDaoImpl implements UserDetailDao {
 
 	@Override
 	@Transactional
-	public boolean removeUserDetail(int id) {
+	public boolean removeUserDetail(String userId) {
 		try {
-			log.debug("Starting Method removeUserRole.");
-				sessionFactory.getCurrentSession().createQuery("Update UserRole set status = 0 where roleId = '"+id+"'").executeUpdate();
-			log.debug("UserRole removed with Id:-"+id);
-			log.debug("Ending Method removeUserRole.");
+			log.debug("Starting Method removeUserDetail.");
+				sessionFactory.getCurrentSession().createQuery("Update UserDetail set accountStatus = 0 where userId = '"+userId+"'").executeUpdate();
+			log.debug("UserDetail removed with Id:-"+userId);
+			log.debug("Ending Method removeUserDetail.");
 			return true;
 		} catch (HibernateException e) {
-			log.error("Error Occured in removeUserRole with (id = '"+id+"') "+e.getMessage());
+			log.error("Error Occured in removeUserDetail with (id = '"+userId+"') "+e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -63,7 +63,7 @@ public class UserDetailDaoImpl implements UserDetailDao {
 	public UserDetail userGetById(String userId) {
 		try {
 				log.debug("Staring of Method userGetById with UserId :- "+userId);
-				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE userId = '"+userId+"' AND accountStatus = '1' ");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE userId = '"+userId+"' AND accountStatus = 1");
 				@SuppressWarnings("unchecked")
 				List<UserDetail> userList = query.list();
 				if(userList != null && !userList.isEmpty()){
@@ -119,6 +119,26 @@ public class UserDetailDaoImpl implements UserDetailDao {
 			e.printStackTrace();
 			return null;
 		}	
+	}
+
+	@Override
+	public List<UserDetail> getUserListForApproval() {
+		try {
+			log.debug("Starting of Method getUserListForApproval");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE approveStatus = P");
+			log.debug("Starting of get UserDetail List");
+			@SuppressWarnings("unchecked")
+			List<UserDetail> list = query.list();
+			if(list==null || list.isEmpty()){
+				log.debug("No User's are Availible");
+			}
+		log.debug("Ending of Method getUserListForApproval");
+		return list;
+		}catch (HibernateException e) {
+			log.error("Error Occured in Method getUserListForApproval :-"+e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

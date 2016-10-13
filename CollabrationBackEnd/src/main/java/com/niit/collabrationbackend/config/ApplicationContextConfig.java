@@ -12,6 +12,7 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.niit.collabrationbackend.Model.Blog;
 import com.niit.collabrationbackend.Model.UserDetail;
 import com.niit.collabrationbackend.Model.UserRole;
 
@@ -44,6 +45,7 @@ public class ApplicationContextConfig {
 		sessionBuilder.addProperties(getHibernateProperties());
 		sessionBuilder.addAnnotatedClass(UserRole.class);
 		sessionBuilder.addAnnotatedClass(UserDetail.class);
+		sessionBuilder.addAnnotatedClass(Blog.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 	

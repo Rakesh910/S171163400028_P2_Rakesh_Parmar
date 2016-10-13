@@ -42,7 +42,7 @@ public class UserRoleDaoImpl implements UserRoleDao {
 				}
 			log.debug("Ending of Method getAllUserRoles");
 			return list;
-		} catch (HibernateException e) {
+		}catch (HibernateException e) {
 			log.error("Error Occured in Method getAllUserRoles :-"+e.getMessage());
 			e.printStackTrace();
 			return null;
