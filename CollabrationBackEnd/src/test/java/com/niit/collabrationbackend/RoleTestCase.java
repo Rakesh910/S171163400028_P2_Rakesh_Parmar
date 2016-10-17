@@ -31,7 +31,7 @@ public class RoleTestCase {
 		userRole = (UserRole) context.getBean("userRole");
 	}
 	
-	@Test
+	/*@Test
 	public void addUpdateUserRoleTestCase(){
 		userRole.setRoleName("Admin");
 		userRole.setStatus('1');
@@ -49,6 +49,6 @@ public class RoleTestCase {
 	public void RemoveUserRoleTestCase(){
 		userRole.setRoleId(5);
 		assertEquals("RemoveUserRoleTestCase",userRoleDao.removeUserRole(userRole.getRoleId()),true);
-	}
+	}*/
 
 }

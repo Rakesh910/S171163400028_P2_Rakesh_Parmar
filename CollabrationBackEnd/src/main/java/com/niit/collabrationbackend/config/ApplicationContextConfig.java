@@ -13,6 +13,9 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.niit.collabrationbackend.Model.Blog;
+import com.niit.collabrationbackend.Model.Event;
+import com.niit.collabrationbackend.Model.Friend;
+import com.niit.collabrationbackend.Model.JobOpportunities;
 import com.niit.collabrationbackend.Model.UserDetail;
 import com.niit.collabrationbackend.Model.UserRole;
 
@@ -46,6 +49,9 @@ public class ApplicationContextConfig {
 		sessionBuilder.addAnnotatedClass(UserRole.class);
 		sessionBuilder.addAnnotatedClass(UserDetail.class);
 		sessionBuilder.addAnnotatedClass(Blog.class);
+		sessionBuilder.addAnnotatedClass(Event.class);
+		sessionBuilder.addAnnotatedClass(Friend.class);
+		sessionBuilder.addAnnotatedClass(JobOpportunities.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 	
