@@ -8,7 +8,11 @@ public interface UserRoleDao {
 	
 	public List<UserRole> getAllUserRoles();
 	
-	public boolean userRoleSaveOrUpdate(UserRole userRole);
+	public boolean saveUserRole(UserRole userRole);
+	
+	public boolean updateUserRole(UserRole userRole);
+	
+	public UserRole getRoleByRoleId(int id);
 	
 	public boolean removeUserRole(int id);
 

@@ -5,17 +5,19 @@ import java.util.List;
 import com.niit.collabrationbackend.Model.UserDetail;
 
 public interface UserDetailDao {
+		
+	public List<UserDetail> getAllUsers();
 	
-	public boolean saveOrUpdateUserDetail(UserDetail userDetail);
+	public List<UserDetail> getAllUsersForApproval();
 	
-	public boolean removeUserDetail(String userId);
+	public boolean saveUser(UserDetail userDetail);
 	
-	public UserDetail userGetById(String userId);
+	public boolean updateUser(UserDetail userDetail);
 	
-	public UserDetail userGetByEmail(String email);
+	public boolean deleteUser(String userId);
 	
 	public UserDetail isValidUser(String email,String password);
 	
-	public List<UserDetail> getUserListForApproval();
+	public UserDetail userGetById(String userId);
 
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table
-public class UserDetail {
+public class UserDetail extends BaseDomain {
 
 	@Id
 	private String userId;

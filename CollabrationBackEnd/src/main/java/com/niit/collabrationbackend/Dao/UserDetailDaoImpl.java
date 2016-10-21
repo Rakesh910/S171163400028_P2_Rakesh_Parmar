@@ -29,52 +29,21 @@ public class UserDetailDaoImpl implements UserDetailDao {
 
 	@Override
 	@Transactional
-	public boolean saveOrUpdateUserDetail(UserDetail userDetail) {
+	public List<UserDetail> getAllUsers() {
 		try {
-			log.debug("Starting Method saveOrUpdateUserDetail.");
-				sessionFactory.getCurrentSession().saveOrUpdate(userDetail);
-			log.debug("Ending Method saveOrUpdateUserDetail");
-			return true;
-		} catch (HibernateException e) {
-			log.error("Error Occured in Method saveOrUpdateUserDetail:-"+e.getMessage());
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public boolean removeUserDetail(String userId) {
-		try {
-			log.debug("Starting Method removeUserDetail.");
-				sessionFactory.getCurrentSession().createQuery("Update UserDetail set accountStatus = 0 where userId = '"+userId+"'").executeUpdate();
-			log.debug("UserDetail removed with Id:-"+userId);
-			log.debug("Ending Method removeUserDetail.");
-			return true;
-		} catch (HibernateException e) {
-			log.error("Error Occured in removeUserDetail with (id = '"+userId+"') "+e.getMessage());
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public UserDetail userGetById(String userId) {
-		try {
-				log.debug("Staring of Method userGetById with UserId :- "+userId);
-				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE userId = '"+userId+"' AND accountStatus = 1");
+			log.debug("**********Starting of Method getAllUsers.**********");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE accountStatus = 1");
+				log.debug("**********Starting of get UsersList.**********");
 				@SuppressWarnings("unchecked")
-				List<UserDetail> userList = query.list();
-				if(userList != null && !userList.isEmpty()){
-					log.debug("Record Found in method userGetById with id ="+userId);
-					return userList.get(0);
-				}else{
-					log.debug("No Record Found in userGetById with id ="+userId);
-					return null;
+				List<UserDetail> list = query.list();
+				if(list==null || list.isEmpty()){
+					log.debug("**********No User's are Availible.**********");
 				}
-		} catch (HibernateException e) {
-			log.error("Error Occures in userGetById Method..!! (id = '"+userId+"')");
+			log.debug("**********Ending of Method getAllUsers.**********");
+			log.debug("**********Number of Records Found :-" + list.size()+".**********");
+			return list;
+		}catch (HibernateException e) {
+			log.error("**********Error Occured in Method getAllUsers :-"+e.getMessage()+".**********");
 			e.printStackTrace();
 			return null;
 		}
@@ -82,60 +51,111 @@ public class UserDetailDaoImpl implements UserDetailDao {
 
 	@Override
 	@Transactional
-	public UserDetail userGetByEmail(String email) {
+	public List<UserDetail> getAllUsersForApproval() {
 		try {
-			log.debug("Staring of Method userGetByEmail with UserId :- "+email);
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE emailId = '"+email+"' AND accountStatus = '1' ");
-			@SuppressWarnings("unchecked")
-			List<UserDetail> userList = query.list();
-			if(userList != null && !userList.isEmpty()){
-				log.debug("Record Found in method userGetByEmail with Email_id ="+email);
-				return userList.get(0);
-			}else{
-				log.debug("No Record Found in userGetByEmail with Email_id ="+email);
-				return null;
-			}
-	} catch (HibernateException e) {
-		log.error("Error Occures in userGetByEmail Method..!! (Email_id = '"+email+"')");
-		e.printStackTrace();
-		return null;
+			log.debug("**********Starting of Method getAllUsersForApproval.**********");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE approveStatus = P");
+				log.debug("**********Starting of get UsersList for Approval.**********");
+				@SuppressWarnings("unchecked")
+				List<UserDetail> list = query.list();
+				if(list==null || list.isEmpty()){
+					log.debug("**********No User's are Availible.**********");
+				}
+			log.debug("**********Ending of Method getAllUsersForApproval.**********");
+			log.debug("**********Number of Records Found :-" + list.size()+".**********");
+			return list;
+		}catch (HibernateException e) {
+			log.error("**********Error Occured in Method getAllUsersForApproval :-"+e.getMessage()+".**********");
+			e.printStackTrace();
+			return null;
+		}
 	}
+
+	@Override
+	@Transactional
+	public boolean saveUser(UserDetail userDetail) {
+		try {
+			log.debug("Starting Method saveUser.");
+				sessionFactory.getCurrentSession().save(userDetail);
+			log.debug("Ending Method saveUser");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in Method saveUser:-"+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean updateUser(UserDetail userDetail) {
+		try {
+			log.debug("Starting Method updateUser.");
+				sessionFactory.getCurrentSession().update(userDetail);
+				sessionFactory.getCurrentSession().flush();
+			log.debug("Ending Method updateUser");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in Method updateUser:-"+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean deleteUser(String userId) {
+		try {
+			log.debug("Starting Method deleteUser.");
+				sessionFactory.getCurrentSession().createQuery("Update UserDetail set accountStatus = 0 where userId = '"+userId+"'").executeUpdate();
+			log.debug("UserDetail removed with Id:-"+userId);
+			log.debug("Ending Method deleteUser.");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in deleteUser with (id = '"+userId+"') "+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}	
 	}
 
 	@Override
 	@Transactional
 	public UserDetail isValidUser(String email, String password) {
 		try {
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE emailId = '"+email+"' AND password = '"+password+"'");
-			@SuppressWarnings("unchecked")
-			List<UserDetail> list = query.list();
-			if(list == null || list.isEmpty()){
-				return null;
-			}else{
-				return list.get(0);
-			}
-		} catch (HibernateException e) {
-			log.error("Error Occures in isValidUser Method..!!");
+			log.debug("**********Starting of Method isValidUser.**********");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE emailId = '"+email+"' AND password = '"+password+"' AND accountStatus = 1");
+				log.debug("**********Starting of get UsersList.**********");
+				@SuppressWarnings("unchecked")
+				List<UserDetail> list = query.list();
+				if(list==null || list.isEmpty()){
+					log.debug("**********No User's are Availible.**********");
+				}
+			log.debug("**********Ending of Method isValidUser.**********");
+			return list.get(0);
+		}catch (HibernateException e) {
+			log.error("**********Error Occured in Method isValidUser :-"+e.getMessage()+".**********");
 			e.printStackTrace();
 			return null;
-		}	
+		}
+		
 	}
 
 	@Override
-	public List<UserDetail> getUserListForApproval() {
+	@Transactional
+	public UserDetail userGetById(String userId) {
 		try {
-			log.debug("Starting of Method getUserListForApproval");
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE approveStatus = P");
-			log.debug("Starting of get UserDetail List");
-			@SuppressWarnings("unchecked")
-			List<UserDetail> list = query.list();
-			if(list==null || list.isEmpty()){
-				log.debug("No User's are Availible");
-			}
-		log.debug("Ending of Method getUserListForApproval");
-		return list;
+			log.debug("**********Starting of Method userGetById.**********");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE userId='"+userId+"' AND accountStatus = 1");
+				log.debug("**********Starting of get UsersList.**********");
+				@SuppressWarnings("unchecked")
+				List<UserDetail> list = query.list();
+				if(list==null || list.isEmpty()){
+					log.debug("**********No User's are Availible.**********");
+				}
+			log.debug("**********Ending of Method userGetById.**********");
+			return list.get(0);
 		}catch (HibernateException e) {
-			log.error("Error Occured in Method getUserListForApproval :-"+e.getMessage());
+			log.error("**********Error Occured in Method userGetById :-"+e.getMessage()+".**********");
 			e.printStackTrace();
 			return null;
 		}

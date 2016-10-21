@@ -27,23 +27,23 @@ public class UserRoleDaoImpl implements UserRoleDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	
 	@Override
 	@Transactional
 	public List<UserRole> getAllUserRoles() {
 		try {
-			log.debug("Starting of Method getAllUserRoles");
+			log.debug("**********Starting of Method getAllUserRoles.**********");
 				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserRole WHERE status = 1");
-				log.debug("Starting of get UserRole List");
+				log.debug("**********Starting of get UserRole List.**********");
 				@SuppressWarnings("unchecked")
 				List<UserRole> list = query.list();
 				if(list==null || list.isEmpty()){
-					log.debug("No UserRoles are Availible");
+					log.debug("**********No UserRoles are Availible.**********");
 				}
-			log.debug("Ending of Method getAllUserRoles");
+			log.debug("**********Ending of Method getAllUserRoles.**********");
+			log.debug("**********Number of Records Found :-" + list.size()+".**********");
 			return list;
 		}catch (HibernateException e) {
-			log.error("Error Occured in Method getAllUserRoles :-"+e.getMessage());
+			log.error("**********Error Occured in Method getAllUserRoles :-"+e.getMessage()+".**********");
 			e.printStackTrace();
 			return null;
 		}
@@ -52,14 +52,30 @@ public class UserRoleDaoImpl implements UserRoleDao {
 
 	@Override
 	@Transactional
-	public boolean userRoleSaveOrUpdate(UserRole userRole) {
+	public boolean saveUserRole(UserRole userRole) {
 		try {
-			log.debug("Starting Method UserRoleSaveOrUpdate.");
-				sessionFactory.getCurrentSession().saveOrUpdate(userRole);
-			log.debug("Ending Method UserRoleSaveOrUpdate");
+			log.debug("Starting Method saveUserRole.");
+				sessionFactory.getCurrentSession().save(userRole);
+			log.debug("Ending Method saveUserRole");
 			return true;
 		} catch (HibernateException e) {
-			log.error("Error Occured in Method UserRoleSaveOrUpdate:-"+e.getMessage());
+			log.error("Error Occured in Method saveUserRole:-"+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean updateUserRole(UserRole userRole) {
+		try {
+			log.debug("Starting Method updateUserRole.");
+				sessionFactory.getCurrentSession().update(userRole);
+				sessionFactory.getCurrentSession().flush();
+			log.debug("Ending Method updateUserRole");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in Method updateUserRole:-"+e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -79,5 +95,27 @@ public class UserRoleDaoImpl implements UserRoleDao {
 			e.printStackTrace();
 			return false;
 		}	
+	}
+	
+	@Override
+	@Transactional
+	public UserRole getRoleByRoleId(int id) {
+		try {
+			log.debug("Staring of Method getRoleByRoleId with roleId :- "+id);
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM UserRole WHERE roleId = '"+id+"' AND status = 1");
+			@SuppressWarnings("unchecked")
+			List<UserRole> userList = query.list();
+			if(userList != null && !userList.isEmpty()){
+				log.debug("Record Found in method getRoleByRoleId with roleId ="+id);
+				return userList.get(0);
+			}else{
+				log.debug("No Record Found in getRoleByRoleId with roleId ="+id);
+				return null;
+			}
+	} catch (HibernateException e) {
+		log.error("Error Occures in getRoleByRoleId Method..!! (id = '"+id+"')");
+		e.printStackTrace();
+		return null;
+	}
 	}
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table
-public class UserRole {
+public class UserRole extends BaseDomain {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
