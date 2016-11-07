@@ -1,5 +1,7 @@
 package com.niit.collabrationbackend.Dao;
 
+
+
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -127,11 +129,14 @@ public class UserDetailDaoImpl implements UserDetailDao {
 				log.debug("**********Starting of get UsersList.**********");
 				@SuppressWarnings("unchecked")
 				List<UserDetail> list = query.list();
-				if(list==null || list.isEmpty()){
+				if(list != null && !list.isEmpty()){
+					log.debug("**********Ending of Method isValidUser.**********");
+					return list.get(0);
+				}else{
 					log.debug("**********No User's are Availible.**********");
+					log.debug("**********Ending of Method isValidUser.**********");
+					return null;
 				}
-			log.debug("**********Ending of Method isValidUser.**********");
-			return list.get(0);
 		}catch (HibernateException e) {
 			log.error("**********Error Occured in Method isValidUser :-"+e.getMessage()+".**********");
 			e.printStackTrace();
@@ -151,9 +156,11 @@ public class UserDetailDaoImpl implements UserDetailDao {
 				List<UserDetail> list = query.list();
 				if(list==null || list.isEmpty()){
 					log.debug("**********No User's are Availible.**********");
+					return null;
+				}else{
+					log.debug("**********Ending of Method userGetById.**********");
+					return list.get(0);
 				}
-			log.debug("**********Ending of Method userGetById.**********");
-			return list.get(0);
 		}catch (HibernateException e) {
 			log.error("**********Error Occured in Method userGetById :-"+e.getMessage()+".**********");
 			e.printStackTrace();

@@ -27,19 +27,35 @@ public class BlogDaoImpl implements BlogDao {
 	
 	@Override
 	@Transactional
-	public boolean blogSaveOrUpdate(Blog blog) {
+	public boolean saveBlog(Blog blog) {
 		try {
-			log.debug("Starting Method blogSaveOrUpdate.");
-				sessionFactory.getCurrentSession().saveOrUpdate(blog);
-			log.debug("Ending Method blogSaveOrUpdate");
+			log.debug("Starting Method saveBlog.");
+				sessionFactory.getCurrentSession().save(blog);
+			log.debug("Ending Method saveBlog");
 			return true;
 		} catch (HibernateException e) {
-			log.error("Error Occured in Method blogSaveOrUpdate:-"+e.getMessage());
+			log.error("Error Occured in Method saveBlog:-"+e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
 	}
 
+	@Override
+	@Transactional
+	public boolean updateBlog(Blog blog) {
+		try {
+			log.debug("Starting Method updateBlog.");
+				sessionFactory.getCurrentSession().update(blog);
+			log.debug("Ending Method updateBlog");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in Method updateBlog:-"+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	
 	@Override
 	@Transactional
 	public boolean removeBlog(String blogId) {
@@ -118,5 +134,27 @@ public class BlogDaoImpl implements BlogDao {
 		e.printStackTrace();
 		return null;
 	}
+	}
+
+
+	@Override
+	@Transactional
+	public List<Blog> getAllBlogs() {
+		try {
+			log.debug("Starting of Method getAllBlogs");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE blogStatus = 1");
+			log.debug("Starting of get BlogList");
+			@SuppressWarnings("unchecked")
+			List<Blog> list = query.list();
+			if(list==null || list.isEmpty()){
+				log.debug("No Blog's Are Available");
+			}
+		log.debug("Ending of Method getAllBlogs");
+		return list;
+		}catch (HibernateException e) {
+			log.error("Error Occured in Method getAllBlogs :-"+e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

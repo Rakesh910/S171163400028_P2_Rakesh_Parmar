@@ -19,7 +19,6 @@ import com.niit.collabrationbackend.Model.Event;
 import com.niit.collabrationbackend.Model.Friend;
 import com.niit.collabrationbackend.Model.JobOpportunities;
 import com.niit.collabrationbackend.Model.UserDetail;
-import com.niit.collabrationbackend.Model.UserRole;
 
 @Configuration
 @ComponentScan("com.niit.collabrationbackend")
@@ -48,7 +47,6 @@ public class ApplicationContextConfig {
 	public SessionFactory getSessionFactory(DataSource dataSource){
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
-		sessionBuilder.addAnnotatedClass(UserRole.class);
 		sessionBuilder.addAnnotatedClass(UserDetail.class);
 		sessionBuilder.addAnnotatedClass(Blog.class);
 		sessionBuilder.addAnnotatedClass(Event.class);

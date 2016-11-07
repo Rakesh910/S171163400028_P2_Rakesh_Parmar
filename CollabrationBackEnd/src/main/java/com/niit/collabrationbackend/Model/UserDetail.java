@@ -35,13 +35,15 @@ public class UserDetail extends BaseDomain {
 	private String contactNo;
 	
 	@NotBlank(message="Password should be filled")
-	@Length(min=8,message="Password should have minimum 8 characters")
+	@Length(min=3,message="Password should have minimum 8 characters")
 	private String password;
 	
 	private char approveStatus;
 	
 	private char accountStatus;
 	
+	private String userRole;
+
 	public String getUserId() {
 		return userId;
 	}
@@ -104,6 +106,14 @@ public class UserDetail extends BaseDomain {
 
 	public void setAccountStatus(char accountStatus) {
 		this.accountStatus = accountStatus;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
 	}
 
 	public UserDetail() {
