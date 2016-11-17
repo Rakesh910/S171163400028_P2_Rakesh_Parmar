@@ -1,12 +1,8 @@
 package com.niit.collabrationbackend.Model;
-
-import java.util.Date;
 import java.util.UUID;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +19,9 @@ public class Blog extends BaseDomain{
 	@NotBlank(message="Please Enter Blog Description")
 	private String blogDescription;
 	
-	private Date blogCreatedAt;
+	private String blogCreatedAt;
 	
-	private Date blogModifiedAt;
+	private String blogModifiedAt;
 	
 	private char approvalStatus;
 	
@@ -55,19 +51,19 @@ public class Blog extends BaseDomain{
 		this.blogDescription = blogDescription;
 	}
 
-	public Date getBlogCreatedAt() {
+	public String getBlogCreatedAt() {
 		return blogCreatedAt;
 	}
 
-	public void setBlogCreatedAt(Date blogCreatedAt) {
+	public void setBlogCreatedAt(String blogCreatedAt) {
 		this.blogCreatedAt = blogCreatedAt;
 	}
 
-	public Date getBlogModifiedAt() {
+	public String getBlogModifiedAt() {
 		return blogModifiedAt;
 	}
 
-	public void setBlogModifiedAt(Date blogModifiedAt) {
+	public void setBlogModifiedAt(String blogModifiedAt) {
 		this.blogModifiedAt = blogModifiedAt;
 	}
 

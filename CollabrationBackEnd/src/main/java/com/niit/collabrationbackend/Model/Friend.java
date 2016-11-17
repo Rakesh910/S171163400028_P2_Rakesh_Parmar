@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table
-public class Friend {
+public class Friend extends BaseDomain{
 	
 	@Id
 	private String id;

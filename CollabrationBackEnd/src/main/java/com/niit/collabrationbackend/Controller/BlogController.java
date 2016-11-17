@@ -1,5 +1,8 @@
 package com.niit.collabrationbackend.Controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -34,7 +37,7 @@ public class BlogController {
 		}else{
 			log.debug("**********Size found :- "+blogList.size()+"**********");
 			log.debug("**********Ending of Method listAllBlogs**********");
-			return new ResponseEntity<List<Blog>>(HttpStatus.OK);
+			return new ResponseEntity<List<Blog>>(blogList,HttpStatus.OK);
 		}
 	}
 	
@@ -48,7 +51,7 @@ public class BlogController {
 		}else{
 			log.debug("**********Size found :- "+blogList.size()+"**********");
 			log.debug("**********Ending of Method listPendingBlogs**********");
-			return new ResponseEntity<List<Blog>>(HttpStatus.OK);
+			return new ResponseEntity<List<Blog>>(blogList,HttpStatus.OK);
 		}
 	}
 	
@@ -56,7 +59,21 @@ public class BlogController {
 	@RequestMapping(value = "/BlogPages/CreateBlog/", method = RequestMethod.POST)
 	public ResponseEntity<Blog> createBlog(@RequestBody Blog blog){
 		log.debug("**********Starting of Method createUser**********");
-		if(blogDao.getBlogById(blog.getBlogId()) == null){
+		if(blogDao.getBlogById(blog.getBlogId(),"0") == null){
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String blogCreatedAt = (dateFormat.format(date));
+            
+			DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date2 = new Date();
+            String blogModifiedAt = (dateFormat2.format(date2));
+            
+            blog.setBlogCreatedAt(blogCreatedAt);
+            blog.setBlogModifiedAt(blogModifiedAt);
+            blog.setApprovalStatus('P');
+            blog.setBlogStatus('0');
+            
 			blogDao.saveBlog(blog);
 			log.debug("**********New Blog Created Successfully**********");
 			return new ResponseEntity<Blog>(blog , HttpStatus.OK);
@@ -70,7 +87,7 @@ public class BlogController {
 	@RequestMapping(value = "/BlogPages/UpdateBlog/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Blog> updateBlog(@PathVariable("id") String blogId,@RequestBody Blog blog){
 		log.debug("**********Starting of Method updateBlog**********" + blogId);
-		if(blogDao.getBlogById(blogId) == null){
+		if(blogDao.getBlogById(blogId,"1") == null){
 			log.debug("**********Blog Does not Exist with this ID :-"+blogId+"**********");
 			blog = new Blog();
 			blog.setErrorCode("404");
@@ -84,11 +101,11 @@ public class BlogController {
 		}
 	}
 	
-	//http://localhost:8080/CollabrationBackEnd/UserPages/RemoveBlog/{id}
-	@RequestMapping(value = "/UserPages/RemoveBlog/{id}", method = RequestMethod.PUT)
+	//http://localhost:8080/CollabrationBackEnd/BlogPages/RemoveBlog/{id}
+	@RequestMapping(value = "/BlogPages/RemoveBlog/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Blog> removeBlog(@PathVariable("id") String blogId){
 		log.debug("**********Starting of Method removeUser**********");
-		Blog blog = blogDao.getBlogById(blogId);
+		Blog blog = blogDao.getBlogById(blogId,"1");
 		if(blog == null){
 			log.debug("**********Blog Does not Exist with this ID :-"+blogId+"**********");
 			blog = new Blog();
@@ -98,6 +115,42 @@ public class BlogController {
 		}else{
 			blogDao.removeBlog(blogId);
 			log.debug("**********Blog Deleted Successfully WITH ID:- "+blogId+"**********");
+			return new ResponseEntity<Blog>(blog , HttpStatus.OK);
+		}
+	}
+
+	//http://localhost:8080/CollabrationBackEnd/Blog/RemoveBlog/{id}
+	@RequestMapping(value = "/BlogPages/GetBlogById/{id}",method = RequestMethod.GET)
+	public ResponseEntity<Blog> getBlogById(@PathVariable("id") String blogId){
+		log.debug("**********Starting of Method getBlogById**********");
+		Blog blog = blogDao.getBlogById(blogId,"1");
+		if(blog == null){
+			log.debug("**********Blog Does not Exist with this ID :-"+blogId+"**********");
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Blog Does not Exist with this ID :-"+ blogId);
+			return new ResponseEntity<Blog>(blog , HttpStatus.NOT_FOUND);
+		}else{
+			log.debug("**********Blog Found Successfully WITH ID:- "+blogId+"**********");
+			return new ResponseEntity<Blog>(blog , HttpStatus.OK);
+		}
+	}
+	
+	//http://localhost:8080/CollabrationBackEnd/BlogPages/UpdateBlog/{id}
+	@RequestMapping(value = "/BlogPages/ApproveBlog/{blogId}/{status}", method = RequestMethod.GET)
+	public ResponseEntity<Blog> approveBlog(@PathVariable("blogId") String blogId,@PathVariable("status") String status){
+		log.debug("**********Starting of Method approveBlog WITH BLOG_ID :-**********" + blogId);
+		Blog blog = blogDao.getBlogById(blogId,"0");
+		if(blog == null){
+			log.debug("**********Blog Does not Exist with this ID :-"+blogId+"**********");
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Blog Does not Exist with this ID :-"+blogId);
+			return new ResponseEntity<Blog>(blog , HttpStatus.NOT_FOUND);
+		}else{
+			blog.setBlogId(blogId);
+			blogDao.approveBlog(blogId, status);
+			log.debug("**********Blog Approved Successfully WITH ID:- "+blogId+"**********");
 			return new ResponseEntity<Blog>(blog , HttpStatus.OK);
 		}
 	}

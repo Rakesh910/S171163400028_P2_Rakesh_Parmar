@@ -98,7 +98,7 @@ public class BlogDaoImpl implements BlogDao {
 	public List<Blog> blogListForApproval() {
 		try {
 			log.debug("Starting of Method blogListForApproval");
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE approvalStatus = P");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE approvalStatus = 'P'");
 			log.debug("Starting of get BlogList");
 			@SuppressWarnings("unchecked")
 			List<Blog> list = query.list();
@@ -116,10 +116,10 @@ public class BlogDaoImpl implements BlogDao {
 
 	@Override
 	@Transactional
-	public Blog getBlogById(String blogId) {
+	public Blog getBlogById(String blogId,String status) {
 		try {
 			log.debug("Staring of Method getBlogById with blogId :- "+blogId);
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE blogId = '"+blogId+"' AND blogStatus = 1");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE blogId = '"+blogId+"' AND blogStatus = '"+status+"'");
 			@SuppressWarnings("unchecked")
 			List<Blog> blogList = query.list();
 			if(blogList != null && !blogList.isEmpty()){
@@ -135,6 +135,28 @@ public class BlogDaoImpl implements BlogDao {
 		return null;
 	}
 	}
+	
+/*	@Override
+	@Transactional
+	public List<Blog> getBlogById(String blogId) {
+		try {
+			log.debug("Staring of Method getBlogById with blogId :- "+blogId);
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE blogId = '"+blogId+"' AND blogStatus = 1");
+			@SuppressWarnings("unchecked")
+			List<Blog> blogList = query.list();
+			if(blogList != null && !blogList.isEmpty()){
+				log.debug("Record Found in method getBlogById with id ="+blogId);
+				return blogList;
+			}else{
+				log.debug("No Record Found in getBlogById with id ="+blogId);
+				return null;
+			}
+	} catch (HibernateException e) {
+		log.error("Error Occures in getBlogById Method..!! (id = '"+blogId+"')");
+		e.printStackTrace();
+		return null;
+	}
+	}*/
 
 
 	@Override
@@ -155,6 +177,22 @@ public class BlogDaoImpl implements BlogDao {
 			log.error("Error Occured in Method getAllBlogs :-"+e.getMessage());
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean approveBlog(String blogId,String status) {
+		try {
+			log.debug("Starting Method approveBlog.");
+				sessionFactory.getCurrentSession().createQuery("Update Blog set blogStatus = 1 , approvalStatus = '"+status+"' where blogId = '"+blogId+"'").executeUpdate();
+			log.debug("Blog approved with Id:-"+blogId);
+			log.debug("Ending Method approveBlog.");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in approveBlog with (id = '"+blogId+"') "+e.getMessage());
+			e.printStackTrace();
+			return false;
 		}
 	}
 }

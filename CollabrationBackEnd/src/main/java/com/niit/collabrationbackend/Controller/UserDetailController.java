@@ -127,11 +127,13 @@ public class UserDetailController {
 		}	
 		
 		@RequestMapping(value = "/UserPages/Logout/",method = RequestMethod.GET)
-		public String logout(HttpSession session){
+		public ResponseEntity<UserDetail> logout(HttpSession session){
 			log.debug("*********Calling Method Logout.");
-			String loggedInUserID = (String) session.getAttribute("loggedInUserID");
-			//SET OFFLINE IS PENDING.
+			/*String loggedInUserID = (String) session.getAttribute("loggedInUserID");
+			//SET OFFLINE IS PENDING.*/
 			session.invalidate();
-			return("You Successfully Loggouedout");
+			log.debug("You Successfully Loggouedout");
+			return new ResponseEntity<UserDetail>(HttpStatus.OK);
+			/*return("You Successfully Loggouedout");*/
 		}
 }

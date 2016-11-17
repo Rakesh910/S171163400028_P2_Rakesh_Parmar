@@ -14,7 +14,7 @@ public interface FriendDao {
 	
 	public boolean update(Friend friend);
 	
-	public void remove(String userId,String friendId);
+	public boolean remove(String userId,String friendId);
 	
 	public List<Friend> getNewFriendRequests(String userId);
 	
