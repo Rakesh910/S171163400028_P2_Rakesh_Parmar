@@ -20,5 +20,4 @@ public interface BlogDao {
 	public Blog getBlogById(String blogId,String status);
 	
 	public boolean approveBlog(String blogId , String status);
-
 }

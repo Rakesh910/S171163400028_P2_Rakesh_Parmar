@@ -56,7 +56,7 @@ public class UserDetailDaoImpl implements UserDetailDao {
 	public List<UserDetail> getAllUsersForApproval() {
 		try {
 			log.debug("**********Starting of Method getAllUsersForApproval.**********");
-				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE approveStatus = P");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE approveStatus = 'P'");
 				log.debug("**********Starting of get UsersList for Approval.**********");
 				@SuppressWarnings("unchecked")
 				List<UserDetail> list = query.list();
@@ -150,7 +150,7 @@ public class UserDetailDaoImpl implements UserDetailDao {
 	public UserDetail userGetById(String userId) {
 		try {
 			log.debug("**********Starting of Method userGetById.**********");
-				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE userId='"+userId+"' AND accountStatus = 1");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE userId='"+userId+"' AND accountStatus = '1'");
 				log.debug("**********Starting of get UsersList.**********");
 				@SuppressWarnings("unchecked")
 				List<UserDetail> list = query.list();
@@ -165,6 +165,28 @@ public class UserDetailDaoImpl implements UserDetailDao {
 			log.error("**********Error Occured in Method userGetById :-"+e.getMessage()+".**********");
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean approveUser(String userId, String status) {
+		char accountStatus;
+		try {
+			log.debug("Starting Method approveUser.");
+			if(status.equals("A")){
+				accountStatus = '1';
+			}else{
+				accountStatus = '0';
+			}
+				sessionFactory.getCurrentSession().createQuery("Update UserDetail set accountStatus = '"+accountStatus+"' , approveStatus = '"+status+"' where userId = '"+userId+"'").executeUpdate();
+			log.debug("User approved with Id:-"+userId);
+			log.debug("Ending Method approveUser.");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in approveBlog with (id = '"+userId+"') "+e.getMessage());
+			e.printStackTrace();
+			return false;
 		}
 	}
 

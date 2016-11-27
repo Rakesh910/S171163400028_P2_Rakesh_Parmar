@@ -1,5 +1,8 @@
 package com.niit.collabrationbackend.Controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -43,7 +46,15 @@ public class EventController {
 	public ResponseEntity<Event> createEvent(@RequestBody Event event){
 		log.debug("**********Starting of Method createUser**********");
 		if(eventDao.getEventById(event.getEventId()) == null){
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String eventDate = (dateFormat.format(date));
+            event.setEventDate(eventDate);
+            event.setEventStatus('1');
 			eventDao.saveEvent(event);
+			event = new Event();
+			event.setErrorMessage("New Event Posted Successfully..!!!");
 			log.debug("**********New Event Created Successfully**********");
 			return new ResponseEntity<Event>(event , HttpStatus.OK);
 		}

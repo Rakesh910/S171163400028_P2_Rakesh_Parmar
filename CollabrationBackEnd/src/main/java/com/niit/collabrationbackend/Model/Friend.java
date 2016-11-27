@@ -22,8 +22,6 @@ public class Friend extends BaseDomain{
 	
 	private char friendStatus;
 	
-	private char is_Online;
-
 	public String getId() {
 		return id;
 	}
@@ -54,14 +52,6 @@ public class Friend extends BaseDomain{
 
 	public void setFriendStatus(char friendStatus) {
 		this.friendStatus = friendStatus;
-	}
-
-	public char getIs_Online() {
-		return is_Online;
-	}
-
-	public void setIs_Online(char is_Online) {
-		this.is_Online = is_Online;
 	}
 
 	public Friend() {

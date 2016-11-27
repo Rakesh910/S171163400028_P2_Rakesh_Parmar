@@ -19,5 +19,7 @@ public interface UserDetailDao {
 	public UserDetail isValidUser(String email,String password);
 	
 	public UserDetail userGetById(String userId);
+	
+	public boolean approveUser(String userId , String status);
 
 }

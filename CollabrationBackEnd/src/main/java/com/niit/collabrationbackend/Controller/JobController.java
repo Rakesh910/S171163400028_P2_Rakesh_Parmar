@@ -1,5 +1,8 @@
 package com.niit.collabrationbackend.Controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -43,8 +46,16 @@ public class JobController {
 	public ResponseEntity<JobOpportunities> createJobOpportunities(@RequestBody JobOpportunities job){
 		log.debug("**********Starting of Method createUser**********");
 		if(jobDao.getJobById(job.getJobId()) == null){
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String jobPostedOn = (dateFormat.format(date));
+            job.setPostedOn(jobPostedOn);
+            job.setJobStatus('1');
 			jobDao.saveJob(job);
 			log.debug("**********New JobOpportunities Created Successfully**********");
+			job = new JobOpportunities();
+			job.setErrorMessage("New Job Posted Successfully....!!!");
 			return new ResponseEntity<JobOpportunities>(job , HttpStatus.OK);
 		}
 		log.debug("**********JobOpportunities already Exist with ID :-"+job.getJobId()+" **********");

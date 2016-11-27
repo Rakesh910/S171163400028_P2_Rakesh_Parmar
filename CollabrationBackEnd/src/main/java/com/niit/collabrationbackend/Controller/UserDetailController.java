@@ -34,8 +34,8 @@ public class UserDetailController {
 				return new ResponseEntity<List<UserDetail>>(HttpStatus.NO_CONTENT);
 			}else{
 				log.debug("**********Size found :- "+userslist.size()+"**********");
-				log.debug("**********Ending of Method listAllRoles**********");
-				return new ResponseEntity<List<UserDetail>>(HttpStatus.OK);
+				log.debug("**********Ending of Method listAllUsers**********");
+				return new ResponseEntity<List<UserDetail>>(userslist,HttpStatus.OK);
 			}
 		}
 		
@@ -45,11 +45,11 @@ public class UserDetailController {
 					log.debug("**********Starting of Method listPendingUsers**********");
 					List<UserDetail> userslist = userDetailDao.getAllUsersForApproval();
 					if(userslist.isEmpty()){
-						return new ResponseEntity<List<UserDetail>>(HttpStatus.NO_CONTENT);
+						return new ResponseEntity<List<UserDetail>>(userslist,HttpStatus.NO_CONTENT);
 					}else{
 						log.debug("**********Size found :- "+userslist.size()+"**********");
 						log.debug("**********Ending of Method listPendingUsers**********");
-						return new ResponseEntity<List<UserDetail>>(HttpStatus.OK);
+						return new ResponseEntity<List<UserDetail>>(userslist,HttpStatus.OK);
 					}
 				}
 		
@@ -62,6 +62,8 @@ public class UserDetailController {
 				userDetail.setApproveStatus('P');
 				userDetailDao.saveUser(userDetail);
 				log.debug("**********New User Created Successfully**********");
+				userDetail = new UserDetail();
+				userDetail.setErrorMessage("User Registration Successful. Wait for the Admin Approval.");
 				return new ResponseEntity<UserDetail>(userDetail , HttpStatus.OK);
 			}
 			log.debug("**********UserDetail already Exist with ID :-"+userDetail.getUserId()+" **********");
@@ -121,7 +123,7 @@ public class UserDetailController {
 			}else{
 				user = new UserDetail();
 				user.setErrorCode("404");
-				user.setErrorMessage("Invaid Credentials");
+				user.setErrorMessage("Invaid Credentials...!!!Please Enter Valid Username OR Password.");
 			}
 			return new ResponseEntity<UserDetail>(user , HttpStatus.OK);
 		}	
@@ -135,5 +137,24 @@ public class UserDetailController {
 			log.debug("You Successfully Loggouedout");
 			return new ResponseEntity<UserDetail>(HttpStatus.OK);
 			/*return("You Successfully Loggouedout");*/
+		}
+		
+		//http://localhost:8080/CollabrationBackEnd/UserPages/ApproveUser/{userId}/{status}
+		@RequestMapping(value = "/UserPages/ApproveUser/{userId}/{status}", method = RequestMethod.GET)
+		public ResponseEntity<UserDetail> approveUser(@PathVariable("userId") String userId,@PathVariable("status") String status){
+			log.debug("**********Starting of Method approveUser WITH USER_ID :-**********" + userId);
+/*			UserDetail user = userDetailDao.userGetById(userId);
+			if(user == null){
+				log.debug("**********User Does not Exist with this ID :-"+userId+"**********");
+				user = new UserDetail();
+				user.setErrorCode("404");
+				user.setErrorMessage("User Does not Exist with this ID :-"+userId);
+				return new ResponseEntity<UserDetail>(user , HttpStatus.NOT_FOUND);
+			}else{
+				user.setUserId(userId);*/
+				userDetailDao.approveUser(userId, status);
+				log.debug("**********Blog Approved Successfully WITH ID:- "+userId+"**********");
+				return new ResponseEntity<UserDetail>(HttpStatus.OK);
+		//	}
 		}
 }

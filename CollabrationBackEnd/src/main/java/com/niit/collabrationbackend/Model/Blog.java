@@ -13,6 +13,8 @@ public class Blog extends BaseDomain{
 	@Id
 	private String blogId;
 	
+	private String userId;
+	
 	@NotBlank(message="Please Enter Blog Title")
 	private String blogTitle;
 	
@@ -81,6 +83,14 @@ public class Blog extends BaseDomain{
 
 	public void setBlogStatus(char blogStatus) {
 		this.blogStatus = blogStatus;
+	}
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public Blog() {
 		this.blogId = "BLG" + UUID.randomUUID().toString().substring(30).toUpperCase();

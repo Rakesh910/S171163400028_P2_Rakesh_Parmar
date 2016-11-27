@@ -23,6 +23,32 @@ public class JobOpportunities extends BaseDomain{
 	@NotBlank(message="Please Enter JOB Description")
 	private String jobDescription;
 	
+	private String jobRole;
+	
+	private String postedOn;
+	
+	public String getPostedOn() {
+		return postedOn;
+	}
+
+	public void setPostedOn(String postedOn) {
+		this.postedOn = postedOn;
+	}
+
+	public String getJobRole() {
+		return jobRole;
+	}
+
+	public void setJobRole(String jobRole) {
+		this.jobRole = jobRole;
+	}
+
+	private String jobLocation;
+	
+	private String contact;
+	
+	private String email;
+	
 	private char jobStatus;
 	
 	public String getJobId() {
@@ -55,6 +81,30 @@ public class JobOpportunities extends BaseDomain{
 
 	public void setJobStatus(char jobStatus) {
 		this.jobStatus = jobStatus;
+	}
+	
+	public String getJobLocation() {
+		return jobLocation;
+	}
+
+	public void setJobLocation(String jobLocation) {
+		this.jobLocation = jobLocation;
+	}
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public JobOpportunities() {

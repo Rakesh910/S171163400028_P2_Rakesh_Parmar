@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collabrationbackend.Dao.BlogDao;
 import com.niit.collabrationbackend.Model.Blog;
+import com.niit.collabrationbackend.Model.UserDetail;
 
 @RestController
 public class BlogController {
@@ -41,6 +44,21 @@ public class BlogController {
 		}
 	}
 	
+	//http://localhost:8080/CollabrationBackEnd/BlogPages/getMyBlogList/	
+	@RequestMapping(value = "/BlogPages/getMyBlogList/", method = RequestMethod.GET)
+	public ResponseEntity<List<Blog>> getMyBlogList(HttpSession session){
+		log.debug("**********Starting of Method getMyBlogList**********");
+		UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+		List<Blog> blogList = blogDao.blogListByUserId(loggedInUser.getUserId());
+		if(blogList.isEmpty()){
+			return new ResponseEntity<List<Blog>>(HttpStatus.NO_CONTENT);
+		}else{
+			log.debug("**********Size found :- "+blogList.size()+"**********");
+			log.debug("**********Ending of Method getMyBlogList**********");
+			return new ResponseEntity<List<Blog>>(blogList,HttpStatus.OK);
+		}
+	}
+	
 	//http://localhost:8080/CollabrationBackEnd/BlogPages/PendingBlogList/
 	@RequestMapping(value = "/BlogPages/PendingBlogList/", method = RequestMethod.GET)
 	public ResponseEntity<List<Blog>> listPendingBlogs(){
@@ -57,7 +75,7 @@ public class BlogController {
 	
 	//http://localhost:8080/CollabrationBackEnd/BlogPages/CreateBlog/
 	@RequestMapping(value = "/BlogPages/CreateBlog/", method = RequestMethod.POST)
-	public ResponseEntity<Blog> createBlog(@RequestBody Blog blog){
+	public ResponseEntity<Blog> createBlog(@RequestBody Blog blog,HttpSession session){
 		log.debug("**********Starting of Method createUser**********");
 		if(blogDao.getBlogById(blog.getBlogId(),"0") == null){
 
@@ -69,6 +87,9 @@ public class BlogController {
             Date date2 = new Date();
             String blogModifiedAt = (dateFormat2.format(date2));
             
+            UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+            blog.setUserId(loggedInUser.getUserId());
+           
             blog.setBlogCreatedAt(blogCreatedAt);
             blog.setBlogModifiedAt(blogModifiedAt);
             blog.setApprovalStatus('P');
@@ -76,6 +97,8 @@ public class BlogController {
             
 			blogDao.saveBlog(blog);
 			log.debug("**********New Blog Created Successfully**********");
+			blog = new Blog();
+			blog.setErrorMessage("Blog Created Successfully..!!!Wait for the Admin Approval.");
 			return new ResponseEntity<Blog>(blog , HttpStatus.OK);
 		}
 		log.debug("**********Blog already Exist with ID :-"+blog.getBlogId()+" **********");
@@ -120,10 +143,10 @@ public class BlogController {
 	}
 
 	//http://localhost:8080/CollabrationBackEnd/Blog/RemoveBlog/{id}
-	@RequestMapping(value = "/BlogPages/GetBlogById/{id}",method = RequestMethod.GET)
-	public ResponseEntity<Blog> getBlogById(@PathVariable("id") String blogId){
+	@RequestMapping(value = "/BlogPages/GetBlogById/{id}/{status}",method = RequestMethod.GET)
+	public ResponseEntity<Blog> getBlogById(@PathVariable("id") String blogId,@PathVariable("status") String status){
 		log.debug("**********Starting of Method getBlogById**********");
-		Blog blog = blogDao.getBlogById(blogId,"1");
+		Blog blog = blogDao.getBlogById(blogId,status); //Send Status in URL .***
 		if(blog == null){
 			log.debug("**********Blog Does not Exist with this ID :-"+blogId+"**********");
 			blog = new Blog();
@@ -149,7 +172,7 @@ public class BlogController {
 			return new ResponseEntity<Blog>(blog , HttpStatus.NOT_FOUND);
 		}else{
 			blog.setBlogId(blogId);
-			blogDao.approveBlog(blogId, status);
+			blogDao.approveBlog(blogId,status);
 			log.debug("**********Blog Approved Successfully WITH ID:- "+blogId+"**********");
 			return new ResponseEntity<Blog>(blog , HttpStatus.OK);
 		}

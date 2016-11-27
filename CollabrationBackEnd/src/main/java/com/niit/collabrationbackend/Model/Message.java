@@ -4,6 +4,7 @@ public class Message {
 
 	private String message;
 	private int id;
+	
 	public String getMessage() {
 		return message;
 	}

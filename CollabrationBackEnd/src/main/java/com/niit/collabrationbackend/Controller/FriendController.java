@@ -33,15 +33,16 @@ public class FriendController {
 		public ResponseEntity<List<Friend>> getMyFriends(HttpSession session){
 			log.debug("**********Calling of Method getMyFriends**********");
 			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+			System.out.println("LOG IN USER ID :-"+loggedInUser.getUserId());
 			List<Friend> myFriends = friendDao.getMyFriends(loggedInUser.getUserId());
 			if(myFriends.isEmpty()){
 				log.debug("**********No Any Friend Found**********");
-				friend.setErrorCode("404");
+				/*friend.setErrorCode("404");
 				friend.setErrorMessage("You Doesn't have any Friend");
-				myFriends.add(friend);
+				myFriends.add(friend);*/
 			}
 				log.debug("**********Size found :- "+myFriends.size()+"**********");
-				log.debug("**********Ending of Method listAllRoles**********");
+				log.debug("**********Ending of Method getMyFriends**********");
 				return new ResponseEntity<List<Friend>>(myFriends,HttpStatus.OK);
 		}
 		
@@ -50,6 +51,7 @@ public class FriendController {
 		public ResponseEntity<Friend> sendFriendRequest(@PathVariable("friendId") String friendId,HttpSession session){
 			log.debug("**********Starting of Method sendFriendRequest**********");
 			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+				Friend friend = new Friend();
 				friend.setUserId(loggedInUser.getUserId());
 				friend.setFriendId(friendId);
 				friend.setFriendStatus('P');
@@ -58,29 +60,31 @@ public class FriendController {
 			return new ResponseEntity<Friend>(friend , HttpStatus.OK);
 		}
 				
-		//http://localhost:8080/CollabrationBackEnd/Friend/AcceptFriend/{friendId}
-		@RequestMapping(value = "/Friend/AcceptFriend/{friendId}", method = RequestMethod.GET)
-		public ResponseEntity<Friend> acceptFriendRequest(@PathVariable("friendId") String friendId,HttpSession session){
+		//http://localhost:8080/CollabrationBackEnd/Friend/AcceptFriend/{id}/{userId}
+		@RequestMapping(value = "/Friend/AcceptFriend/{id}/{userId}", method = RequestMethod.GET)
+		public ResponseEntity<Friend> acceptFriendRequest(@PathVariable("id") String Id,@PathVariable("userId") String userId,HttpSession session){
 			log.debug("**********Starting of Method acceptFriendRequest**********");
 			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
-				friend.setUserId(loggedInUser.getUserId());
-				friend.setFriendId(friendId);
+				friend.setId(Id);
+				friend.setFriendId(loggedInUser.getUserId());
+				friend.setUserId(userId);
 				friend.setFriendStatus('A');
 				friendDao.update(friend);
 				log.debug("**********acceptFriendRequest Successfully**********");
 			return new ResponseEntity<Friend>(friend , HttpStatus.OK);
 		}
 		
-		//http://localhost:8080/CollabrationBackEnd/Friend/RejectFriend/{friendId}
-		@RequestMapping(value = "/Friend/RejectFriend/{friendId}", method = RequestMethod.GET)
-		public ResponseEntity<Friend> rejectFriendRequest(@PathVariable("friendId") String friendId,HttpSession session){
-			log.debug("**********Starting of Method rejectFriendRequest**********");
+		//http://localhost:8080/CollabrationBackEnd/Friend/RejectFriend/{id}/{userId}
+		@RequestMapping(value = "/Friend/RejectFriend/{id}/{userId}", method = RequestMethod.GET)
+		public ResponseEntity<Friend> rejectFriendRequest(@PathVariable("id") String Id,@PathVariable("userId") String userId,HttpSession session){
+			log.debug("**********Starting of Method RejectFriendRequest**********");
 			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
-				friend.setUserId(loggedInUser.getUserId());
-				friend.setFriendId(friendId);
+				friend.setId(Id);
+				friend.setFriendId(loggedInUser.getUserId());
+				friend.setUserId(userId);
 				friend.setFriendStatus('R');
 				friendDao.update(friend);
-				log.debug("**********rejectFriendRequest Successfully**********");
+				log.debug("**********RejectFriendRequest Successfully**********");
 			return new ResponseEntity<Friend>(friend , HttpStatus.OK);
 		}
 		
@@ -102,8 +106,8 @@ public class FriendController {
 		@RequestMapping(value = "/Friend/GetMyFriendRequest/", method = RequestMethod.GET)
 		public ResponseEntity<List<Friend>> getMyFriendRequest(HttpSession session){
 			log.debug("**********Calling of Method getMyFriendRequest**********");
-			String loggedInUserId = (String) session.getAttribute("loggedInUser");
-			List<Friend> myFriendrequest = friendDao.getNewFriendRequests(loggedInUserId);
+			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+			List<Friend> myFriendrequest = friendDao.getNewFriendRequests(loggedInUser.getUserId());
 			if(myFriendrequest.isEmpty()){
 				log.debug("**********No Any New Friend Request Found**********");
 				return new ResponseEntity<List<Friend>>(myFriendrequest,HttpStatus.NO_CONTENT);

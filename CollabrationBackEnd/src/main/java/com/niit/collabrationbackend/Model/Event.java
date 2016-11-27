@@ -1,6 +1,5 @@
 package com.niit.collabrationbackend.Model;
 
-import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -24,7 +23,7 @@ public class Event extends BaseDomain{
 	@NotBlank(message="Please Enter Event Description")
 	private String eventDescription;
 	
-	private Date eventDate;
+	private String eventDate;
 	
 	@NotBlank(message="Please Enter Event Description")
 	private String eventVenue;
@@ -55,11 +54,11 @@ public class Event extends BaseDomain{
 		this.eventDescription = eventDescription;
 	}
 
-	public Date getEventDate() {
+	public String getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(Date eventDate) {
+	public void setEventDate(String eventDate) {
 		this.eventDate = eventDate;
 	}
 

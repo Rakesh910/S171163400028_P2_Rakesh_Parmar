@@ -77,7 +77,7 @@ public class BlogDaoImpl implements BlogDao {
 	public List<Blog> blogListByUserId(String userId) {
 		try {
 			log.debug("Starting of Method blogListByUserId");
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE blogStatus = 1 AND userId = '"+userId+"'");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE userId = '"+userId+"'");
 			log.debug("Starting of get BlogList");
 			@SuppressWarnings("unchecked")
 			List<Blog> list = query.list();
@@ -183,9 +183,15 @@ public class BlogDaoImpl implements BlogDao {
 	@Override
 	@Transactional
 	public boolean approveBlog(String blogId,String status) {
+		char blogStatus;
 		try {
 			log.debug("Starting Method approveBlog.");
-				sessionFactory.getCurrentSession().createQuery("Update Blog set blogStatus = 1 , approvalStatus = '"+status+"' where blogId = '"+blogId+"'").executeUpdate();
+			if(status.equals("A")){
+				blogStatus = '1';
+			}else{
+				blogStatus = '0';
+			}
+				sessionFactory.getCurrentSession().createQuery("Update Blog set blogStatus = '"+blogStatus+"' , approvalStatus = '"+status+"' where blogId = '"+blogId+"'").executeUpdate();
 			log.debug("Blog approved with Id:-"+blogId);
 			log.debug("Ending Method approveBlog.");
 			return true;

@@ -43,6 +43,16 @@ public class UserDetail extends BaseDomain {
 	private char accountStatus;
 	
 	private String userRole;
+	
+	private char is_Online;
+
+	public char getIs_Online() {
+		return is_Online;
+	}
+
+	public void setIs_Online(char is_Online) {
+		this.is_Online = is_Online;
+	}
 
 	public String getUserId() {
 		return userId;

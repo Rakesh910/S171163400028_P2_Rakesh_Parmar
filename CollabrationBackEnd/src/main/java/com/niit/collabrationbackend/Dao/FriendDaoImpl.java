@@ -36,7 +36,7 @@ public class FriendDaoImpl implements FriendDao {
 	public List<Friend> getMyFriends(String userId) {
 		try {
 			log.debug("**********Starting of Method getMyFriends.**********");
-				Query query = sessionFactory.getCurrentSession().createQuery("FROM Friend WHERE userId = '"+userId+"' AND friendStatus = '"+ " A'");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM Friend WHERE friendId = '"+userId+"' OR userId = '"+userId+"' "); //AND friendStatus = '"+ " A'
 				log.debug("**********Starting of get FriendsList.**********");
 				@SuppressWarnings("unchecked")
 				List<Friend> list = query.list();
@@ -126,8 +126,9 @@ public class FriendDaoImpl implements FriendDao {
 	@Transactional
 	public List<Friend> getNewFriendRequests(String userId) {
 		try {
+			log.debug("----->LOGGED IN USER :-"+userId);
 			log.debug("**********Starting of Method getNewFriendRequests.**********");
-				Query query = sessionFactory.getCurrentSession().createQuery("FROM Friend WHERE userId = '"+userId+"' AND friendStatus = '"+ " P'");
+				Query query = sessionFactory.getCurrentSession().createQuery("FROM Friend WHERE friendId = '"+userId+"' AND friendStatus = 'P'");
 				log.debug("**********Starting of get New Friends Request.**********");
 				@SuppressWarnings("unchecked")
 				List<Friend> list = query.list();
