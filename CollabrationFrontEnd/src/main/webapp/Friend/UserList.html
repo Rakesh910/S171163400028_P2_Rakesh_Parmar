@@ -1,0 +1,25 @@
+<div class="container-fluid" data-ng-controller="FriendController as ctrl">
+
+<hr>
+<center><h3>Available User's</h3> </center>
+<!-- <td data-ng-show="!ctrl.users">Sorry..!! No User Found.</td> -->
+<hr>
+<input class="form-control" type="text" placeholder="Enter Name for Search User.">
+<hr>
+<div class="col-xs-18 col-sm-6 col-md-3" data-ng-repeat="user in ctrl.users | filter:{userId : '!' + currentUser.userId}">
+          <div class="thumbnail">
+            <img src="resources/images/user.jpg">
+              <div class="caption">
+                <h4>{{user.firstName }} {{ user.lastName}}</h4>
+                <p>Role: &nbsp;<b>{{user.userRole}}</b></p>
+				<button class="btn btn-success btn-block"
+						data-ng-click="ctrl.sendFriendRequest(user.userId)"
+						onclick="return confirm('Are You Sure Want to Send A FriendRequest??');">Send
+						Request</button>
+            </div>
+          </div>
+        </div>
+        
+</div>
+
+

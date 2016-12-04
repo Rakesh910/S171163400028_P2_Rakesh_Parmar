@@ -25,6 +25,7 @@ public class UserDetailController {
 	@Autowired
 	UserDetailDao userDetailDao;
 	
+	
 	//http://localhost:8080/CollabrationBackEnd/UserPages/Users/
 		@RequestMapping(value = "/UserPages/Users/", method = RequestMethod.GET)
 		public ResponseEntity<List<UserDetail>> listAllUsers(){
@@ -60,6 +61,7 @@ public class UserDetailController {
 			if(userDetailDao.userGetById(userDetail.getUserId()) == null){
 				userDetail.setAccountStatus('0');
 				userDetail.setApproveStatus('P');
+				userDetail.setIs_Online('N');
 				userDetailDao.saveUser(userDetail);
 				log.debug("**********New User Created Successfully**********");
 				userDetail = new UserDetail();
@@ -120,6 +122,7 @@ public class UserDetailController {
 				log.debug("**********User Exist With Given Credentials.**********");
 				session.setAttribute("loggedInUser",user);
 				session.setAttribute("loggedInUserID", user.getUserId());
+				userDetailDao.setOnLine(user.getUserId());
 			}else{
 				user = new UserDetail();
 				user.setErrorCode("404");
@@ -133,6 +136,8 @@ public class UserDetailController {
 			log.debug("*********Calling Method Logout.");
 			/*String loggedInUserID = (String) session.getAttribute("loggedInUserID");
 			//SET OFFLINE IS PENDING.*/
+			String userId = (String) session.getAttribute("loggedInUserID");
+			userDetailDao.setOffLine(userId);
 			session.invalidate();
 			log.debug("You Successfully Loggouedout");
 			return new ResponseEntity<UserDetail>(HttpStatus.OK);

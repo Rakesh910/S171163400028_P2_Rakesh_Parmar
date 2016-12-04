@@ -1,0 +1,70 @@
+<div class="container">
+	<div class="modal-content" data-ng-controller="AdminController as ctrl">
+		<div class="modal-header">
+		<div class="modal-title col-sm-6">
+			<h4>LIST OF NEW USER'S</h4>
+		</div>
+		<div class="col-sm-6">
+				<input class="pull-right form-control" type="text"  placeholder="Enter Text for Search" />
+		</div>
+        
+      	</div>
+      <div class="modal-body">
+       	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>ID#</th>
+				<th>Name</th>
+				<th>Email Address</th>
+				<th>Contact No.</th>
+				<th>User Role</th>
+				<th colspan="2"><center>OPTIONS</center></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td width="100%" colspan="6" data-ng-show="!ctrl.pendingUsers">Sorry..!! No New User Request Found.</td>
+			</tr>
+			<tr data-ng-repeat="user in ctrl.pendingUsers ">
+			
+				<td width="10%">{{user.userId}}</td>
+				<td width="20%">{{user.firstName}} {{user.lastName}}</td>
+				<td width="30%">{{user.emailId}}</td>
+				<td width="10%">{{user.contactNo}}</td>
+				<td width="10%">{{user.userRole}}</td>
+
+				<td width="10%">
+					<button class="btn btn-success btn-block" data-ng-click="ctrl.SelectedapproveUser(user.userId,'A')" onclick="return confirm('Are You Sure Want to Accept this??');">ACCEPT</button>
+				</td>
+				<td width="10%">
+					<button class="btn btn-danger btn-block" data-ng-click="ctrl.SelectedapproveUser(user.userId,'R')" onclick="return confirm('Are You Sure Want to Reject this??');">Reject</button>
+				</td>
+				
+			</tr>
+
+		</tbody>
+
+	</table>
+      </div>
+      <div class="modal-footer" style="text-align: left;">
+        	<span>Total No. of Records = {{ctrl.pendingUsers.length}}</span>
+        	<ul class="pagination pull-right" style="margin: 0 0;">
+        		<li><button class="btn btn-default"
+        		data-ng-disabled="ctrl.curPage == 0"
+					data-ng-click="ctrl.curPage=ctrl.curPage-1">
+					<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+				</button></li>
+        		<li>1</li>
+        		<li><button class="btn btn-default"
+					data-ng-disabled="ctrl.curPage >= pendingUsers.length/ctrl.pageSize - 1"
+					data-ng-click="ctrl.curPage = ctrl.curPage+1">
+					<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+				</button></li>
+        	</ul>
+      </div>
+	
+	</div>
+</div>
+
+
+

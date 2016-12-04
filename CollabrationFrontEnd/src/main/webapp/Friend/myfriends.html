@@ -1,0 +1,50 @@
+
+<div class="container-fluid" data-ng-controller="FriendController as ctrl">
+
+<hr>
+<center><h3>My Friend List</h3></center>
+<!-- <td data-ng-show="!ctrl.users">Sorry..!! No User Found.</td> -->
+<hr>
+<input class="form-control" type="text" placeholder="Enter Name for Search User.">
+<hr>
+<div data-ng-repeat="frnd in ctrl.friends | filter:{friendStatus :'A'}" >
+	<div data-ng-if="currentUser.userId==frnd.userId">
+		<div class="col-xs-18 col-sm-6 col-md-3" data-ng-repeat="user in ctrl.users | filter:{userId:frnd.friendId}">
+          <div class="thumbnail">
+            <img src="resources/images/user.jpg">
+              <div class="caption">
+                <h4>{{user.firstName }} {{ user.lastName}}</h4>
+                <p>Role: &nbsp;<b>{{user.userRole}}</b></p>
+                <div data-ng-if="user.is_Online=='Y'">
+                <p id="circle" style="font-size: 100%; font-family: Times New Roman;"></p>
+                </div><a class="btn btn-success btn-block" href="#/chat">Send Message</a>
+                
+            </div>
+          </div>
+        </div>
+	</div>
+	<div data-ng-if="currentUser.userId==frnd.friendId">
+		<div class="col-xs-18 col-sm-6 col-md-3" data-ng-repeat="user in ctrl.users | filter:{userId:frnd.userId}">
+          <div class="thumbnail">
+            <img src="resources/images/user.jpg">
+              <div class="caption">
+                <h4>{{user.firstName }} {{ user.lastName}}</h4>
+                <p>Role: &nbsp;<b>{{user.userRole}}</b></p>
+                <div data-ng-if="user.is_Online=='Y'">
+                <p id="circle" style="font-size: 100%; font-family: Times New Roman;"></p>
+                </div>
+                <a class="btn btn-success btn-block" href="#/chat">Send Message</a>
+                        
+            </div>
+          </div>
+        </div>
+	</div>
+
+</div>
+
+</div>
+
+
+
+
+

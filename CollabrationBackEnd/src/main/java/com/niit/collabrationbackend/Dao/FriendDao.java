@@ -18,8 +18,6 @@ public interface FriendDao {
 	
 	public List<Friend> getNewFriendRequests(String userId);
 	
-	public void setOnLine(String userId);
-	
-	public void setOffLine(String userId);
+
 
 }

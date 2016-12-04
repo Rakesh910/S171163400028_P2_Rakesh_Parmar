@@ -1,0 +1,41 @@
+<div class="container-fluid text-center">    
+  
+  
+  
+     <div class="col-sm-6 text-left" data-ng-show="currentUser.userId==undefined" style="margin-top: 10%;margin-left: 25%;"> 
+    
+    
+          <!-- Modal content-->
+    <div class="modal-content" data-ng-controller="UserController as ctrl" >
+    <div data-ng-show='ctrl.user.errorMessage'>
+    	<div class="alert alert-danger">{{ctrl.user.errorMessage}}</div>
+    </div>
+    <form name="form" data-ng-submit="ctrl.login()" role="form">
+      <div class="modal-header">
+        <h4 class="modal-title">Sign In</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group" data-ng-class="{'has-error':form.emailId.$dirty && form.emailId.$error.required}">
+					<input type="email" name="emailId" id="emailId" class="form-control" data-ng-model="ctrl.user.emailId" 
+					placeholder="Email Address" required="required" />
+					<span class="help-block" data-ng-show="form.emailId.$dirty && form.emailId.$error.required">Email Address Is Required.</span>
+		</div>
+		<div class="form-group" data-ng-class="{'has-error':form.password.$dirty && form.password.$error.required}">
+					<input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" 
+					placeholder="Password" required="required" />
+					<span class="help-block" data-ng-show="form.password.$dirty && form.password.$error.required">Password Is Required.</span>
+		</div>
+      </div>
+      <div class="modal-footer">
+      <div class="col-sm-6">
+        <button type="submit" data-ng-disabled="form.$invalid || ctrl.dataLoading" class="btn btn-success btn-block">Sign In</button></div>
+        <div class="col-sm-6"><a role="button"  href="#/register" class="btn btn-block btn-info">New User?? Click Here..</a></div>
+      </div>
+      </form>
+      
+    </div>
+    
+    </div>
+  </div>
+
+

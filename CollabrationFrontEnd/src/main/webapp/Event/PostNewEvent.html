@@ -1,0 +1,47 @@
+<div class="container" data-ng-controller="EventController as ctrl">
+	<div class="row">
+<div class="col-sm-8" data-ng-show='ctrl.event.errorMessage'>
+						<div class="alert alert-danger">{{ctrl.event.errorMessage}}</div>
+					</div>
+		<form name="form" data-ng-submit="ctrl.submit()" role="form">
+			<div class="col-sm-8 modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title text-center">Post a New Event</h4>
+				</div>
+				<div class="modal-body">
+					
+					<div class="form-group" data-ng-class="{'has-error':form.eventTitle.$dirty && form.eventTitle.$error.required}">
+						<input type="text" name="eventTitle" id="eventTitle"
+							class="form-control" data-ng-model="ctrl.event.eventTitle"
+							placeholder="Event Title" required="required" /> <span
+							class="help-block" data-ng-show="form.eventTitle.$dirty && form.eventTitle.$error.required">Event Title Is Required.</span>
+					</div>
+					
+					<div class="form-group" data-ng-class="{'has-error':form.eventDescription.$dirty && form.eventDescription.$error.required}">
+						<textarea rows="3" cols="3" name="eventDescription"
+							id="eventDescription" class="form-control"
+							data-ng-model="ctrl.event.eventDescription"
+							placeholder="Event Description" required="required"></textarea>
+							<span class="help-block" data-ng-show="form.eventDescription.$dirty && form.eventDescription.$error.required">Event Description Is Required.</span>
+					</div>
+
+					<div class="form-group" data-ng-class="{'has-error':form.eventVenue.$dirty && form.eventVenue.$error.required}">
+						<input type="text" name="eventVenue" id="eventVenue"
+							class="form-control" data-ng-model="ctrl.event.eventVenue"
+							placeholder="Event Location" required="required" /> <span
+							class="help-block" data-ng-show="form.eventVenue.$dirty && form.eventVenue.$error.required">Event Venue Is Required.</span>
+					</div>
+
+				</div>
+				<div class="modal-footer form-actions">
+					<div class="col-sm-6">
+						<button type="submit" data-ng-disabled="form.$invalid || ctrl.dataLoading" class="btn btn-success btn-block">Post</button>
+					</div>
+					<div class="col-sm-6">
+						<button type="reset" class="btn btn-info btn-block">Reset</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

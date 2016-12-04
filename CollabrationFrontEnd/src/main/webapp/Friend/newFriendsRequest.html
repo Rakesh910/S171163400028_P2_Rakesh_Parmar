@@ -1,0 +1,117 @@
+<div class="container">
+	<div class="modal-content"
+		data-ng-controller="FriendController as ctrl">
+		<div class="modal-header">
+			<div class="modal-title col-sm-6">
+				<h4>LIST OF New FRIEND Request's</h4>
+			</div>
+			<div class="col-sm-6">
+				<input class="pull-right form-control" type="text"
+					placeholder="Enter Text for Search" />
+			</div>
+
+		</div>
+		<div class="modal-body">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>ID#</th>
+						<th>User Name</th>
+						<th>Email Id</th>
+						<th>Contact No.</th>
+						<th colspan="2"><center>OPTIONS</center></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr data-ng-show="!ctrl.friends">
+						<td colspan="5">
+							<p>
+							<div class="alert-danger">
+								<h2>Sorry..!! No Friends Are Available Right Now.</h2>
+							</div>
+							</p>
+						</td>
+					</tr>
+					<tr
+						data-ng-repeat="frnd in ctrl.friends | filter:{friendStatus :'P'} | filter:{userId : '!' + currentUser.userId}">
+						<td width="15%">{{frnd.id}}</td>
+						<td width="20%"
+							data-ng-repeat="user in ctrl.users | filter :{userId : frnd.userId} ">{{user.firstName}}
+							{{user.lastName}}</td>
+						<td width="20%"
+							data-ng-repeat="user in ctrl.users | filter :{userId : frnd.userId}">{{user.emailId}}</td>
+						<td width="20%"
+							data-ng-repeat="user in ctrl.users | filter :{userId : frnd.userId}">{{user.contactNo}}</td>
+						<td>
+							<button class="btn btn-success"
+								data-ng-click="ctrl.approveSelectedFriend(frnd.id,frnd.userId)"
+								onclick="return confirm('Are You Sure Want to Accept this??');">Accept
+								Friend Request</button>
+						</td>
+						<td><button class="btn btn-danger"
+								data-ng-click="ctrl.rejectSelectedFriend(frnd.id,frnd.userId)"
+								onclick="return confirm('Are You Sure Want to Remove this??');">Reject
+								Friend Request</button></td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+		<div class="modal-footer" style="text-align: left;">
+			<span>Total No. of Records = {{ctrl.friends.length}}</span>
+			<ul class="pagination pull-right" style="margin: 0 0;">
+				<li><button class="btn btn-default"
+						data-ng-disabled="ctrl.curPage == 0"
+						data-ng-click="ctrl.curPage=ctrl.curPage-1">
+						<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+					</button></li>
+				<li>1</li>
+				<li><button class="btn btn-default"
+						data-ng-disabled="ctrl.curPage >= pendingUsers.length/ctrl.pageSize - 1"
+						data-ng-click="ctrl.curPage = ctrl.curPage+1">
+						<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+					</button></li>
+			</ul>
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="container-fluid" data-ng-controller="FriendController as ctrl">
+
+<hr>
+<center><h3>My Friend List</h3></center>
+<!-- <td data-ng-show="!ctrl.users">Sorry..!! No User Found.</td> -->
+<hr>
+<input class="form-control" type="text" placeholder="Enter Name for Search User.">
+<hr>
+<div data-ng-repeat="frnd in ctrl.friends | filter:{friendStatus :'P'} | filter:{userId : '!' + currentUser.userId}">
+	<div data-ng-if="currentUser.userId==frnd.userId">
+		<div class="col-xs-18 col-sm-6 col-md-3" data-ng-repeat="user in ctrl.users | filter :{userId : frnd.userId} ">
+          <div class="thumbnail">
+            <img src="resources/images/user.jpg">
+              <div class="caption">
+                <h4>{{user.firstName }} {{ user.lastName}}</h4>
+                <p>Role: &nbsp;<b>{{user.userRole}}</b></p>
+                <div data-ng-if="user.is_Online=='Y'">
+                <p id="circle" style="font-size: 100%; font-family: Times New Roman;"></p>
+                </div>
+                <a class="btn btn-success btn-block" href="#/chat">Send Message</a>
+				
+            </div>
+          </div>
+        </div>
+	</div>
+</div>
+ 
+</div>
+
+
+
+
+
+
+

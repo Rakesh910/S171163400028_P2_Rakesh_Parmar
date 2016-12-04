@@ -1,0 +1,84 @@
+<div class="container" data-ng-controller="UserController as ctrl">
+	
+	<div data-ng-show='ctrl.user.errorMessage'>
+						<div class="alert alert-danger">{{ctrl.user.errorMessage}}</div>
+					</div>
+	<form name="form" data-ng-submit="ctrl.submit()" role="form" >
+		<div class="col-sm-5 modal-content" style="margin-top: 2%;margin-left: 28%;">
+			<div class="modal-header">
+				<h4 class="modal-title">Sign In</h4>
+			</div>
+			<div class="modal-body">
+				<div class=" form-group">
+					<input type="text" name="firstName" id="firstName"
+						class="form-control" data-ng-model="ctrl.user.firstName"
+						placeholder="First Name" required="required" /> <span
+						class="help-block" data-ng-show="">First Name Is Required.</span>
+				</div>
+				<div class=" form-group">
+					<input type="text" name="lastName" id="lastName"
+						class="form-control" data-ng-model="ctrl.user.lastName"
+						placeholder="Last Name" required="required" /> <span
+						class="help-block" data-ng-show="">Last Name Is Required.</span>
+				</div>
+
+				<div class=" form-group">
+					<input type="email" name="emailId" id="emailId"
+						class="form-control" data-ng-model="ctrl.user.emailId"
+						placeholder="Email Address" required="required" /> <span
+						class="help-block" data-ng-show="">Email Address Is
+						Required.</span>
+				</div>
+
+				<div class=" form-group">
+					<input type="text" name="contactNo" id="contactNo"
+						class="form-control" data-ng-model="ctrl.user.contactNo"
+						placeholder="Contact Number" required="required" /> <span
+						class="help-block" data-ng-show="">Contact Number Is
+						Required.</span>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label" for="userRole">Register As :- </label>
+						<div class="radio-inline">
+							<input type="radio" name="userRole" value="Alumni"
+								data-ng-model="ctrl.user.userRole">Alumni
+						</div>
+						<div class="radio-inline">
+							<input type="radio" name="userRole" value="Student"
+								data-ng-model="ctrl.user.userRole">Student
+						</div>
+						<div class="radio-inline">
+							<input type="radio" name="userRole" value="Employee"
+								data-ng-model="ctrl.user.userRole">Employee
+						</div>
+				</div>
+
+				<div class=" form-group">
+					<input type="password" name="password" id="password"
+						class="form-control" data-ng-model="ctrl.user.password"
+						placeholder="Password" required="required" /> <span
+						class="help-block" data-ng-show="">Password Is Required.</span>
+				</div>
+
+				<div class=" form-group">
+					<input type="password" name="cpassword" id="cpassword"
+						class="form-control" placeholder="Confirm Password" data-ng-model="ctrl.user.cpassword"
+						required="required" /> <span class="help-block" data-ng-show="">Confirm
+						Password Is Required.</span>
+				</div>
+
+			</div>
+
+
+			<div class="modal-footer form-actions">
+				<div class="col-sm-6">
+					<button type="submit" class="btn btn-success btn-block">Register</button>
+				</div>
+				<div class="col-sm-6">
+					<button type="reset" class="btn btn-info btn-block">Reset</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

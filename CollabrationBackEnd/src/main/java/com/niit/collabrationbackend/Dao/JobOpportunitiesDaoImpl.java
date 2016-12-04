@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.niit.collabrationbackend.Model.AppliedJobs;
 import com.niit.collabrationbackend.Model.JobOpportunities;
 
 @EnableTransactionManagement
@@ -78,7 +79,7 @@ public class JobOpportunitiesDaoImpl implements JobOpportunitiesDao{
 	public List<JobOpportunities> getAllJobList() {
 		try {
 			log.debug("Starting of Method getAllJobList");
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM JobOpportunities WHERE jobStatus = 1");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM JobOpportunities");
 			log.debug("Starting of get Job List");
 			@SuppressWarnings("unchecked")
 			List<JobOpportunities> list = query.list();
@@ -115,5 +116,40 @@ public class JobOpportunitiesDaoImpl implements JobOpportunitiesDao{
 		return null;
 	}
 	}
-	
+
+	@Override
+	@Transactional
+	public boolean applyJob(AppliedJobs job) {
+		try {
+			log.debug("Starting Method applyJob.");
+				sessionFactory.getCurrentSession().save(job);
+			log.debug("Ending Method applyJob");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in Method applyJob:-"+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<AppliedJobs> getMyAppliedJobs(String userId) {
+		try {
+			log.debug("Starting of Method getMyAppliedJobs");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM AppliedJobs WHERE userId = '"+userId+"'");
+			log.debug("Starting of getMyAppliedJob List");
+			@SuppressWarnings("unchecked")
+			List<AppliedJobs> list = query.list();
+			if(list==null || list.isEmpty()){
+				log.debug("No Job's are Availible");
+			}
+		log.debug("Ending of Method getMyAppliedJobs");
+		return list;
+		}catch (HibernateException e) {
+			log.error("Error Occured in Method getMyAppliedJobs :-"+e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

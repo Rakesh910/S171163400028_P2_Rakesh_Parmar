@@ -21,5 +21,9 @@ public interface UserDetailDao {
 	public UserDetail userGetById(String userId);
 	
 	public boolean approveUser(String userId , String status);
+	
+	public void setOnLine(String userId);
+	
+	public void setOffLine(String userId);
 
 }

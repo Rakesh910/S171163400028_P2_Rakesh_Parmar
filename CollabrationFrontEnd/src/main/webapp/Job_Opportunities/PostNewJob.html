@@ -1,0 +1,66 @@
+<div class="container" data-ng-controller="JobController as ctrl">
+	<div class="row">
+<div class="col-sm-8" data-ng-show='ctrl.job.errorMessage'>
+						<div class="alert alert-danger">{{ctrl.job.errorMessage}}</div>
+					</div>
+		<form name="form" data-ng-submit="ctrl.submit()" role="form">
+			<div class="col-sm-8 modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title text-center">Post a New Job</h4>
+				</div>
+				<div class="modal-body">
+					
+					<div class="form-group" data-ng-class="{'has-error':form.jobTitle.$dirty && form.jobTitle.$error.required}">
+						<input type="text" name="jobTitle" id="jobTitle"
+							class="form-control" data-ng-model="ctrl.job.jobTitle"
+							placeholder="Job Title" required="required" /> <span
+							class="help-block" data-ng-show="form.jobTitle.$dirty && form.jobTitle.$error.required">Job Title Is Required.</span>
+					</div>
+
+					<div class="form-group" data-ng-class="{'has-error':form.jobRole.$dirty && form.jobRole.$error.required}">
+						<input type="text" name="jobRole" id="jobRole"
+							class="form-control" data-ng-model="ctrl.job.jobRole"
+							placeholder="Job Role." required="required" /> 
+							<span class="help-block" data-ng-show="form.jobRole.$dirty && form.jobRole.$error.required">Job Role Is Required.</span>
+					</div>
+					
+					<div class="form-group" data-ng-class="{'has-error':form.jobDescription.$dirty && form.jobDescription.$error.required}">
+						<textarea rows="3" cols="3" name="jobDescription"
+							id="jobDescription" class="form-control"
+							data-ng-model="ctrl.job.jobDescription"
+							placeholder="Job Description" required="required"></textarea>
+							<span class="help-block" data-ng-show="form.jobDescription.$dirty && form.jobDescription.$error.required">Job Description Is Required.</span>
+					</div>
+
+					<div class="form-group" data-ng-class="{'has-error':form.jobLocation.$dirty && form.jobLocation.$error.required}">
+						<input type="text" name="jobLocation" id="jobLocation"
+							class="form-control" data-ng-model="ctrl.job.jobLocation"
+							placeholder="Job Location" required="required" /> <span
+							class="help-block" data-ng-show="form.jobLocation.$dirty && form.jobLocation.$error.required">Job Location Is Required.</span>
+					</div>
+					
+					<div class="form-group" data-ng-class="{'has-error':form.contact.$dirty && form.contact.$error.required}">
+						<input type="text" name="contact" id="contact"
+							class="form-control" data-ng-model="ctrl.job.contact"
+							placeholder="Contact Number." required="required" /> <span
+							class="help-block" data-ng-show="form.contact.$dirty && form.contact.$error.required">Contact Number Is Required.</span>
+					</div>
+					<div class="form-group" data-ng-class="{'has-error':form.email.$dirty && form.email.$error.required}">
+						<input type="text" name="email" id="email"
+							class="form-control" data-ng-model="ctrl.job.email"
+							placeholder="Email Id." required="required" /> <span
+							class="help-block" data-ng-show="form.email.$dirty && form.email.$error.required">Email Id Is Required.</span>
+					</div>
+				</div>
+				<div class="modal-footer form-actions">
+					<div class="col-sm-6">
+						<button type="submit" data-ng-disabled="form.$invalid || ctrl.dataLoading" class="btn btn-success btn-block">Post</button>
+					</div>
+					<div class="col-sm-6">
+						<button type="reset" class="btn btn-info btn-block">Reset</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

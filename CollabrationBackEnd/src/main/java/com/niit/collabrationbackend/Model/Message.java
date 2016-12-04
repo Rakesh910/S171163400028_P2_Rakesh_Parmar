@@ -23,4 +23,8 @@ public class Message {
 		this.message = message;
 		this.id = id;
 	}
+	
+	public Message(){
+		
+	}
 }

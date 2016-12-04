@@ -1,0 +1,58 @@
+<div class="container-fluid" data-ng-controller="ChatController">
+    <div class="row">
+            <div class="panel panel-primary" style="margin-top: 10px;">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-comment"></span> Chat
+                    <h5 style="margin-top: -1px;" class="pull-right">Messages : <b>{{messages.length}}</b></h5>
+                </div>
+                <div class="panel-body">
+                    <ul class="chat">
+                        <li class="left clearfix" data-ng-repeat="message in messages | orderBy:'time':true"><span class="chat-img pull-left">
+                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+                        </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                
+	
+                                    <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span><time>{{message.time | date:'HH:mm'}}</time></small>
+                                </div>
+                                <p>
+                                   <span> {{message.message}}</span>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                <form data-ng-submit="addMessage()" name="messageForm">
+                    <div class="input-group">
+                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." data-ng-model="message"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+                        </span>
+                    </div>
+                    </form>
+                </div>
+            
+            </div>
+    </div>
+</div>
+
+ 
+<!--  <div data-ng-controller="ChatController" class="container-fluid">
+Messages :{{messages.length}}
+<p data-ng-repeat="message in messages | orderBy:'time':true" class="message">
+
+	<time>{{message.time | date:'HH:mm'}}</time>
+	<span> {{message.message}}</span>
+</p>
+
+<form data-ng-submit="addMessage()" name="messageForm">
+	<textarea rows="4" cols="100" placeholder="new message.." data-ng-model="message"></textarea>
+	<button>Send</button>
+
+
+</form> -->
+
+</div>

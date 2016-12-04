@@ -2,6 +2,7 @@ package com.niit.collabrationbackend.Dao;
 
 import java.util.List;
 
+import com.niit.collabrationbackend.Model.AppliedJobs;
 import com.niit.collabrationbackend.Model.JobOpportunities;
 
 public interface JobOpportunitiesDao {
@@ -14,5 +15,9 @@ public interface JobOpportunitiesDao {
 	
 	public List<JobOpportunities> getAllJobList();
 	
+	public boolean applyJob(AppliedJobs job);
+	
 	public JobOpportunities getJobById(String jobId);
+	
+	public List<AppliedJobs> getMyAppliedJobs(String userId);
 }

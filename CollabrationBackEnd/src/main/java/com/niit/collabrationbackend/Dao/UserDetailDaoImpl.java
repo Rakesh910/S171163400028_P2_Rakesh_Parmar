@@ -190,4 +190,29 @@ public class UserDetailDaoImpl implements UserDetailDao {
 		}
 	}
 
+	@Override
+	@Transactional
+	public void setOnLine(String userId) {
+		try {
+			log.debug("**********Starting of Method setOnLine.With Id **********"+userId);
+				sessionFactory.getCurrentSession().createQuery("UPDATE UserDetail SET is_Online = 'Y' WHERE userId = '"+userId+"'").executeUpdate();
+				log.debug("**********Ending of Method setOnLine.**********");
+		} catch (Exception e) {
+				e.printStackTrace();
+				log.debug("**********Error Occuring while SetOnline Finction..**********");
+		}		
+	}
+
+	@Override
+	@Transactional
+	public void setOffLine(String userId) {
+		try {
+			log.debug("**********Starting of Method setOnLine. with Id : **********"+userId);
+				sessionFactory.getCurrentSession().createQuery("UPDATE UserDetail SET is_Online = 'N' WHERE userId = '"+userId+"'").executeUpdate();
+				log.debug("**********Ending of Method setOnLine.**********");
+		} catch (Exception e) {
+				e.printStackTrace();
+				log.debug("**********Error Occuring while SetOnline Finction..**********");
+		}
+	}
 }

@@ -1,0 +1,252 @@
+<!-- //Add Jackson dependency in POM file/ -->
+<!DOCTYPE html>
+<html data-ng-app="myApp">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COLLABORATION PROJECT</title>
+<link type="text/css" rel="stylesheet"
+	href="resources/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet"
+	href="resources/css/CollabrationTheme.css">
+</head>
+<body>
+	<div data-ng-show="currentUser.userId==undefined" style="background-color: #e7e7e7;">
+	
+	
+	
+	
+	<nav class="navbar navbar-default">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#myNavbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"><img alt="LOGO"
+				src="resources/images/logo.png"
+				style="margin-top: -30px; height: 82px; width: 250px;"></a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar"
+			data-ng-controller="HomeController as ctrl">
+			<ul class="nav navbar-nav">
+				<li><a href="#/home"><b>Home</b></a></li>
+				<li class="dropdown" data-ng-show="currentUser.userRole=='Admin'">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Admin</b><span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#manageBlog">Blog's Requests</a></li>
+						<li><a href="#manageUser">New User's Requests</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Job Opportunities<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+					<li><a href="#listOfJobs">Show List Of Job's</a></li>
+					<li><a href="#listOfMyJobs">My Applied Job's</a></li>
+						<li><a href="#create_job">Add New Job</a></li>
+						<li><a href="#remove_job">Remove Job</a></li>
+						
+					</ul>
+				</li>
+				<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Blogs<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#blog_list">Show List Of Blogs</a></li>
+						<li><a href="#myBlogList">My Active Blog's</a></li>
+						<li><a href="#myPendingBlogList">My Pending Blog's</a></li>
+						<li><a href="#myRejectedBlogList">My Rejected Blog's</a></li>
+						<li><a href="#create_Blog">Add New Blog</a></li>
+					</ul>
+				</li>
+				
+				
+				<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Friends<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#showUsersList">Show List of User's</a></li>
+						<li><a href="#myFriendList">My Friend List</a></li>
+						<li><a href="#newFriendRequest">New Friend Request's</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Events<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#create_event">Add New Event</a></li>
+						<li><a href="#listOfEvents">Show List Of Events</a></li>
+					</ul>
+				</li>
+				
+				<li><a href="#/chat_forum"><b>Chat Forums</b></a></li>
+				<li><a href="#/about_us"><b>About us</b></a></li>
+
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+
+				<li data-ng-show="currentUser.userId==undefined">
+					<a href="#/register"><b>Sing Up</b></a>
+				</li>
+				<li data-ng-show="currentUser.userId==undefined">
+					<a href="#/login"><b>Login</b></a>
+				</li>
+					
+				<li class="dropdown"  data-ng-hide="currentUser.userId==undefined">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>My Profile<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+						
+					</ul>
+				</li>	
+				
+				<li data-ng-hide="currentUser.userId==undefined"><a href=""
+					data-ng-click="ctrl.logout()"><b>Logout</b></a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div style="min-height: 517px" data-ng-view></div>
+	<hr>
+	<footer class="container-fluid text-center">
+		<p>Footer Text</p>
+	</footer>
+	</div> 
+	
+	<div class="container-fluid" data-ng-hide="currentUser.userId==undefined">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav" data-ng-controller="HomeController as ctrl"">
+	<img alt="LOGO" src="resources/images/logo.png" style="margin-top: -10px; height: 60px; width: 200px;">
+		<hr><p><center>COLLABORATION SITE</center></p>
+		<hr> <p><li class=" btn btn-default btn-block" ><a href="#/home"><b>Home</b></a></li></p>
+		<hr> <p><li class="dropdown btn btn-default btn-block" >
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Admin</b>&nbsp;&nbsp;&nbsp;<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#manageBlog">Blog's Requests</a></li>
+						<li><a href="#manageUser">New User's Requests</a></li>
+					</ul>
+				</li></p>
+		<hr> <p>
+						<li class="dropdown btn btn-default btn-block">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Job Opportunities</b>&nbsp;&nbsp;&nbsp;<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					<li><a href="#listOfJobs">Show List Of Job's</a></li>
+					<li><a href="#listOfMyJobs">My Applied Job's</a></li>
+						<li><a href="#create_job">Add New Job</a></li>
+						<li><a href="#remove_job">Remove Job</a></li>
+						
+					</ul>
+				</li>
+		
+		
+		</p>
+		<hr> <p><li class="dropdown btn btn-default btn-block">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Blogs<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#blog_list">Show List Of Blogs</a></li>
+						<li><a href="#myBlogList">My Active Blog's</a></li>
+						<li><a href="#myPendingBlogList">My Pending Blog's</a></li>
+						<li><a href="#myRejectedBlogList">My Rejected Blog's</a></li>
+						<li><a href="#create_Blog">Add New Blog</a></li>
+					</ul>
+				</li></p>
+		<hr> <p><li class="dropdown btn btn-default btn-block">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Friends<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#showUsersList">Show List of User's</a></li>
+						<li><a href="#myFriendList">My Friend List</a></li>
+						<li><a href="#newFriendRequest">New Friend Request's</a></li>
+					</ul>
+				</li></p>
+		<hr> <p><li class="dropdown btn btn-default btn-block">
+				<a class="dropdown-toggle" data-toggle="dropdown"><b>Events<span class="caret"></span></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#create_event">Add New Event</a></li>
+						<li><a href="#listOfEvents">Show List Of Events</a></li>
+					</ul>
+				</li></p>
+		<hr> <p><a class="btn btn-default btn-block"  style="color: #337ab7;" href="#/chat_forum"><b>Chat Forums</b></a></p>
+		<hr> <p><a class="btn btn-default btn-block" style="color: #337ab7;" href="#/about_us"><b>About us</b></a></p>
+		<hr> <p><a class="btn btn-default btn-block" style="color: #337ab7;"
+					data-ng-click="ctrl.logout()"><b>Logout</b></a></p>
+					<hr>
+
+	</div>
+	<div class="col-sm-8" style="overflow-y: scroll; height:100%;min-height: 508px;" data-ng-view></div>
+	
+	    <div class="col-sm-2 sidenav" data-ng-controller="HomeController as ctrl">
+		<hr> 
+          
+          <div class="caption">
+                <h4>User :- {{currentUser.firstName}} {{currentUser.lastName}}</h4>
+                <p>Role: &nbsp;<b>{{currentUser.userRole}}</b></p>
+            </div>
+            <img class="thumbnail" src="resources/images/user.jpg" style="height: 140px;width: 100%;">
+            <hr>OnLine Friends.<hr>
+        <div data-ng-controller="FriendController as ctrl">
+        	<div data-ng-repeat="frnd in ctrl.friends | filter:{friendStatus :'A'}" >
+        	<div data-ng-if="currentUser.userId==frnd.userId">
+        		<div  data-ng-repeat="user in ctrl.users | filter:{userId:frnd.friendId} | filter:{is_Online :'Y'}">
+        		<hr><span class="input-group-addon"><i class="glyphicon glyphicon-user" style="text-align: left;"><a href="#/chat" style="display: inline;">{{user.firstName }}{{ user.lastName}}</a><p id="circle" class="pull-right" style="margin-top: -10px;"></p></i></span>
+        		
+        		
+        		</div>
+        	</div>
+        	</div>
+        	
+        	 <div data-ng-repeat="frnd in ctrl.friends | filter:{friendStatus :'A'}" >
+        	<div data-ng-if="currentUser.userId==frnd.friendId">
+        		<div  data-ng-repeat="user in ctrl.users | filter:{userId:frnd.userId} | filter:{is_Online :'Y'}">
+        		<hr><span class="input-group-addon"><i class="glyphicon glyphicon-user" style="text-align: left;"><a href="#/chat" style="display: inline;">{{user.firstName }}{{ user.lastName}}</a><p id="circle" class="pull-right" style="margin-top: -10px;"></p></i></span>
+        		</div>
+        	</div>
+        	</div>
+        </div>
+
+		
+		
+		
+		
+	</div>
+	</div>
+	</div>
+	
+	
+    
+
+	
+	
+	
+  
+	<script src="resources/js/jsfiles/jquery.js"></script>
+	<script src="resources/js/jsfiles/angular.min.js"></script>
+	<script src="resources/js/jsfiles/angular-route.min.js"></script>
+	<script src="resources/js/jsfiles/bootstrap.min.js"></script>
+	<script src="resources/js/jsfiles/angular-cookies.min.js"></script>
+	<script src="resources/js/jsfiles/sockjs-0.3.4.min.js"></script>
+	<script src="resources/js/jsfiles/stomp.min.js"></script>
+	<script src="resources/js/jsfiles/ChatJS.js"></script>
+
+	<script src="resources/js/jsfiles/upload.js"></script>
+	<script src="resources/js/jsfiles/ng-file-upload.min.js"></script>
+	<script src="resources/js/jsfiles/ng-file-upload-all.min.js"></script>
+
+	<script src="resources/js/app.js"></script>
+
+	<script src="UserPages/UserController.js"></script>
+	<script src="UserPages/HomeController.js"></script>
+	<script src="Blog/BlogController.js"></script>
+	<script src="Friend/FriendController.js"></script>
+	<script src="Event/EventController.js"></script>
+	<script src="Chat_Forum/ChatController.js"></script>
+	<script src="Admin/AdminController.js"></script>
+	<script src="Job_Opportunities/JobController.js"></script>
+	<script src="Chat/ChatController.js"></script>
+
+	<script src="UserPages/UserService.js"></script>
+	<script src="Blog/BlogService.js"></script>
+	<script src="Friend/FriendService.js"></script>
+	<script src="Event/EventService.js"></script>
+	<script src="Admin/AdminService.js"></script>
+	<script src="Job_Opportunities/JobService.js"></script>
+	<script src="Chat/ChatService.js"></script>
+
+</body>
+</html>

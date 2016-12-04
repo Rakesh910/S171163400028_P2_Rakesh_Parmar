@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collabrationbackend.Dao.JobOpportunitiesDao;
+import com.niit.collabrationbackend.Model.AppliedJobs;
 import com.niit.collabrationbackend.Model.JobOpportunities;
+import com.niit.collabrationbackend.Model.UserDetail;
 
 @RestController
 public class JobController {
@@ -37,7 +41,7 @@ public class JobController {
 		}else{
 			log.debug("**********Size found :- "+jobList.size()+"**********");
 			log.debug("**********Ending of Method listAllJobOpportunitiess**********");
-			return new ResponseEntity<List<JobOpportunities>>(HttpStatus.OK);
+			return new ResponseEntity<List<JobOpportunities>>(jobList,HttpStatus.OK);
 		}
 	}
 		
@@ -98,4 +102,32 @@ public class JobController {
 			return new ResponseEntity<JobOpportunities>(job , HttpStatus.OK);
 		}
 	}
+	
+	//http://localhost:8080/CollabrationBackEnd/JobPages/ApplyForJob/{id}
+		@RequestMapping(value = "/JobPages/ApplyForJob/{id}", method = RequestMethod.GET)
+		public ResponseEntity<AppliedJobs> applyforjob(@PathVariable("id") String jobId,HttpSession session){
+			log.debug("**********Starting of Method applyforjob**********");
+			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+			AppliedJobs job = new AppliedJobs();
+			job.setJobId(jobId);
+			job.setUserId(loggedInUser.getUserId());
+			job.setJobStatus('1');
+			jobDao.applyJob(job);
+			return new ResponseEntity<AppliedJobs>(job , HttpStatus.OK);
+		}
+	
+		//http://localhost:8080/CollabrationBackEnd/JobPages/MyJobList/
+		@RequestMapping(value = "/JobPages/MyJobList/", method = RequestMethod.GET)
+		public ResponseEntity<List<AppliedJobs>> myJobList(HttpSession session){
+			log.debug("**********Starting of Method listAllJobOpportunitiess**********");
+			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+			List<AppliedJobs> jobList = jobDao.getMyAppliedJobs(loggedInUser.getUserId());
+			if(jobList.isEmpty()  ){
+				return new ResponseEntity<List<AppliedJobs>>(jobList,HttpStatus.NO_CONTENT);
+			}else{
+				log.debug("**********Size found :- "+jobList.size()+"**********");
+				log.debug("**********Ending of Method listAllJobOpportunitiess**********");
+				return new ResponseEntity<List<AppliedJobs>>(jobList,HttpStatus.OK);
+			}
+		}
 }

@@ -145,29 +145,5 @@ public class FriendDaoImpl implements FriendDao {
 		}
 	}
 
-	@Override
-	@Transactional
-	public void setOnLine(String userId) {
-		try {
-			log.debug("**********Starting of Method setOnLine.**********");
-				sessionFactory.getCurrentSession().createQuery("UPDATE Friend SET is_Online = 'Y' WHERE userId = '"+userId+"'");
-				log.debug("**********Ending of Method setOnLine.**********");
-		} catch (Exception e) {
-				e.printStackTrace();
-				log.debug("**********Error Occuring while SetOnline Finction..**********");
-		}		
-	}
-
-	@Override
-	@Transactional
-	public void setOffLine(String userId) {
-		try {
-			log.debug("**********Starting of Method setOnLine.**********");
-				sessionFactory.getCurrentSession().createQuery("UPDATE Friend SET is_Online = 'N' WHERE userId = '"+userId+"'");
-				log.debug("**********Ending of Method setOnLine.**********");
-		} catch (Exception e) {
-				e.printStackTrace();
-				log.debug("**********Error Occuring while SetOnline Finction..**********");
-		}
-	}
+	
 }
