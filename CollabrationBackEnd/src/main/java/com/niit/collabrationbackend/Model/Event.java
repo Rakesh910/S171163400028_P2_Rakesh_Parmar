@@ -24,7 +24,7 @@ public class Event extends BaseDomain{
 	private String eventDescription;
 	
 	private String eventDate;
-	
+		
 	@NotBlank(message="Please Enter Event Description")
 	private String eventVenue;
 	

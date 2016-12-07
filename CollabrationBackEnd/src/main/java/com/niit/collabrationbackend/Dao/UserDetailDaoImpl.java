@@ -149,7 +149,7 @@ public class UserDetailDaoImpl implements UserDetailDao {
 	@Transactional
 	public UserDetail userGetById(String userId) {
 		try {
-			log.debug("**********Starting of Method userGetById.**********");
+			log.debug("**********Starting of Method userGetById :- "+userId+".**********");
 				Query query = sessionFactory.getCurrentSession().createQuery("FROM UserDetail WHERE userId='"+userId+"' AND accountStatus = '1'");
 				log.debug("**********Starting of get UsersList.**********");
 				@SuppressWarnings("unchecked")

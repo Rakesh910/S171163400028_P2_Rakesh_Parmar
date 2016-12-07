@@ -37,7 +37,7 @@ public class EventController {
 		}else{
 			log.debug("**********Size found :- "+eventList.size()+"**********");
 			log.debug("**********Ending of Method listAllEvents**********");
-			return new ResponseEntity<List<Event>>(HttpStatus.OK);
+			return new ResponseEntity<List<Event>>(eventList,HttpStatus.OK);
 		}
 	}
 		
@@ -82,7 +82,7 @@ public class EventController {
 	}
 	
 	//http://localhost:8080/CollabrationBackEnd/UserPages/RemoveEvent/{id}
-	@RequestMapping(value = "/UserPages/RemoveEvent/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/EventPages/RemoveEvent/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Event> removeEvent(@PathVariable("id") String eventId){
 		log.debug("**********Starting of Method removeUser**********");
 		Event event = eventDao.getEventById(eventId);

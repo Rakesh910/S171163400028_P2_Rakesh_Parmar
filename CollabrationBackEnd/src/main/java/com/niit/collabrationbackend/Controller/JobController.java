@@ -119,15 +119,20 @@ public class JobController {
 		//http://localhost:8080/CollabrationBackEnd/JobPages/MyJobList/
 		@RequestMapping(value = "/JobPages/MyJobList/", method = RequestMethod.GET)
 		public ResponseEntity<List<AppliedJobs>> myJobList(HttpSession session){
-			log.debug("**********Starting of Method listAllJobOpportunitiess**********");
-			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
-			List<AppliedJobs> jobList = jobDao.getMyAppliedJobs(loggedInUser.getUserId());
-			if(jobList.isEmpty()  ){
-				return new ResponseEntity<List<AppliedJobs>>(jobList,HttpStatus.NO_CONTENT);
-			}else{
-				log.debug("**********Size found :- "+jobList.size()+"**********");
-				log.debug("**********Ending of Method listAllJobOpportunitiess**********");
-				return new ResponseEntity<List<AppliedJobs>>(jobList,HttpStatus.OK);
+			try {
+				log.debug("**********Starting of Method listAllJobOpportunitiess**********");
+				UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+				List<AppliedJobs> jobList = jobDao.getMyAppliedJobs(loggedInUser.getUserId());
+				if(jobList.isEmpty()  ){
+					return new ResponseEntity<List<AppliedJobs>>(jobList,HttpStatus.NO_CONTENT);
+				}else{
+					log.debug("**********Size found :- "+jobList.size()+"**********");
+					log.debug("**********Ending of Method listAllJobOpportunitiess**********");
+					return new ResponseEntity<List<AppliedJobs>>(jobList,HttpStatus.OK);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<List<AppliedJobs>>(HttpStatus.NO_CONTENT);
 			}
 		}
 }

@@ -74,19 +74,19 @@ public class UserDetailController {
 		}
 		
 		//http://localhost:8080/CollabrationBackEnd/UserPages/UpdateUserDetail/{id}
-		@RequestMapping(value = "/UserPages/UpdateUserDetail/{id}", method = RequestMethod.PUT)
-		public ResponseEntity<UserDetail> updateUser(@PathVariable("id") String userId,@RequestBody UserDetail userDetail){
-			log.debug("**********Starting of Method updateUser**********" + userId);
-			if(userDetailDao.userGetById(userId) == null){
-				log.debug("**********UserDetail Does not Exist with this ID :-"+userId+"**********");
+		@RequestMapping(value = "/UserPages/UpdateUserDetail/", method = RequestMethod.PUT)
+		public ResponseEntity<UserDetail> updateUser(@RequestBody UserDetail userDetail){
+			log.debug("**********Starting of Method updateUser**********" );
+			if(userDetailDao.userGetById(userDetail.getUserId()) == null){
+				log.debug("**********UserDetail Does not Exist with this ID :-**********");
 				userDetail = new UserDetail();
 				userDetail.setErrorCode("404");
-				userDetail.setErrorMessage("UserDetail Does not Exist with this ID :-"+userId);
+				userDetail.setErrorMessage("UserDetail Does not Exist with this ID :-");
 				return new ResponseEntity<UserDetail>(userDetail , HttpStatus.NOT_FOUND);
 			}else{
-				userDetail.setUserId(userId);
 				userDetailDao.updateUser(userDetail);
-				log.debug("**********UserDetail Updated Successfully WITH ID:- "+userId+"**********");
+				userDetail.setErrorMessage("Your Profile Updated Successfully.");
+				log.debug("**********UserDetail Updated Successfully WITH ID:-**********");
 				return new ResponseEntity<UserDetail>(userDetail , HttpStatus.OK);
 			}
 		}
@@ -110,6 +110,24 @@ public class UserDetailController {
 			}
 		}
 		
+		
+		//http://localhost:8080/CollabrationBackEnd/UserPages/GetUser/{id}
+		@RequestMapping(value = "/UserPages/GetUser/{id}", method = RequestMethod.GET)
+		public ResponseEntity<UserDetail> getUserById(@PathVariable("id") String userId){
+			log.debug("**********Starting of Method getUserById**********");
+			UserDetail userDetail = userDetailDao.userGetById(userId);
+			if(userDetail == null){
+				log.debug("**********UserDetail Does not Exist with this ID :-"+userId+"**********");
+				userDetail = new UserDetail();
+				userDetail.setErrorCode("404");
+				userDetail.setErrorMessage("UserDetail Does not Exist with this ID :-"+ userId);
+				return new ResponseEntity<UserDetail>(userDetail , HttpStatus.NOT_FOUND);
+			}else{
+				log.debug("**********UserDetail Found WITH ID:- "+userId+"**********");
+				return new ResponseEntity<UserDetail>(userDetail , HttpStatus.OK);
+			}
+		}
+		
 		//http://localhost:8080/CollabrationBackEnd/UserPages/Authentication/
 		@RequestMapping(value = "/UserPages/Authentication/", method = RequestMethod.POST)
 		public ResponseEntity<UserDetail> authentication(@RequestBody UserDetail userDetail,HttpSession session){
@@ -121,6 +139,7 @@ public class UserDetailController {
 			if(user != null){
 				log.debug("**********User Exist With Given Credentials.**********");
 				session.setAttribute("loggedInUser",user);
+				session.setAttribute("userName",user.getFirstName()+' '+user.getLastName());
 				session.setAttribute("loggedInUserID", user.getUserId());
 				userDetailDao.setOnLine(user.getUserId());
 			}else{

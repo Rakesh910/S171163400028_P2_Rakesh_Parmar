@@ -29,6 +29,26 @@ public class Blog extends BaseDomain{
 	
 	private char blogStatus;
 	
+	private int blogLike;
+	
+	private int blogDislike;
+	
+	public int getBlogLike() {
+		return blogLike;
+	}
+
+	public void setBlogLike(int blogLike) {
+		this.blogLike = blogLike;
+	}
+
+	public int getBlogDislike() {
+		return blogDislike;
+	}
+
+	public void setBlogDislike(int blogDislike) {
+		this.blogDislike = blogDislike;
+	}
+
 	public String getBlogId() {
 		return blogId;
 	}

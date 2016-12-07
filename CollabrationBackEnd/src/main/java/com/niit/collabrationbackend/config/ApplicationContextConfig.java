@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.niit.collabrationbackend.Model.AppliedJobs;
 import com.niit.collabrationbackend.Model.Blog;
 import com.niit.collabrationbackend.Model.Event;
+import com.niit.collabrationbackend.Model.Forum;
+import com.niit.collabrationbackend.Model.ForumComment;
 import com.niit.collabrationbackend.Model.Friend;
 import com.niit.collabrationbackend.Model.JobOpportunities;
 import com.niit.collabrationbackend.Model.UserDetail;
@@ -54,6 +56,8 @@ public class ApplicationContextConfig {
 		sessionBuilder.addAnnotatedClass(Friend.class);
 		sessionBuilder.addAnnotatedClass(JobOpportunities.class);
 		sessionBuilder.addAnnotatedClass(AppliedJobs.class);
+		sessionBuilder.addAnnotatedClass(Forum.class);
+		sessionBuilder.addAnnotatedClass(ForumComment.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 	

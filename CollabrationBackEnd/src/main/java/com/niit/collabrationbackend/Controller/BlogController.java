@@ -35,7 +35,7 @@ public class BlogController {
 	public ResponseEntity<List<Blog>> listAllBlogs(){
 		log.debug("**********Starting of Method listAllBlogs**********");
 		List<Blog> blogList = blogDao.getAllBlogs();
-		if(blogList.isEmpty()){
+		if(blogList.isEmpty() || blogList == null){
 			return new ResponseEntity<List<Blog>>(HttpStatus.NO_CONTENT);
 		}else{
 			log.debug("**********Size found :- "+blogList.size()+"**********");
@@ -47,15 +47,20 @@ public class BlogController {
 	//http://localhost:8080/CollabrationBackEnd/BlogPages/getMyBlogList/	
 	@RequestMapping(value = "/BlogPages/getMyBlogList/", method = RequestMethod.GET)
 	public ResponseEntity<List<Blog>> getMyBlogList(HttpSession session){
-		log.debug("**********Starting of Method getMyBlogList**********");
-		UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
-		List<Blog> blogList = blogDao.blogListByUserId(loggedInUser.getUserId());
-		if(blogList.isEmpty()){
+		try {
+			log.debug("**********Starting of Method getMyBlogList**********");
+			UserDetail loggedInUser = (UserDetail) session.getAttribute("loggedInUser");
+			List<Blog> blogList = blogDao.blogListByUserId(loggedInUser.getUserId());
+			if(blogList.isEmpty()){
+				return new ResponseEntity<List<Blog>>(HttpStatus.NO_CONTENT);
+			}else{
+				log.debug("**********Size found :- "+blogList.size()+"**********");
+				log.debug("**********Ending of Method getMyBlogList**********");
+				return new ResponseEntity<List<Blog>>(blogList,HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<List<Blog>>(HttpStatus.NO_CONTENT);
-		}else{
-			log.debug("**********Size found :- "+blogList.size()+"**********");
-			log.debug("**********Ending of Method getMyBlogList**********");
-			return new ResponseEntity<List<Blog>>(blogList,HttpStatus.OK);
 		}
 	}
 	
@@ -176,5 +181,24 @@ public class BlogController {
 			log.debug("**********Blog Approved Successfully WITH ID:- "+blogId+"**********");
 			return new ResponseEntity<Blog>(blog , HttpStatus.OK);
 		}
+	}
+	
+	//http://localhost:8080/CollabrationBackEnd/BlogPages/Like/{blogId}
+	@RequestMapping(value = "/BlogPages/Like/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Blog> likeBlog(@PathVariable("id") String blogId){
+		log.debug("**********Starting of Method updateBlog**********" + blogId);
+		
+			blogDao.bloglikes(blogId);
+			log.debug("**********Blog Updated Successfully WITH ID:- "+blogId+"**********");
+			return new ResponseEntity<Blog>(HttpStatus.OK);
+	}
+	
+	//http://localhost:8080/CollabrationBackEnd/BlogPages/DisLike/{blogId}
+	@RequestMapping(value = "/BlogPages/DisLike/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Blog> disLikeBlog(@PathVariable("id") String blogId){
+		log.debug("**********Starting of Method updateBlog**********" + blogId);
+			blogDao.blogdislikes(blogId);
+			log.debug("**********Blog Updated Successfully WITH ID:- "+blogId+"**********");
+			return new ResponseEntity<Blog>(HttpStatus.OK);
 	}
 }

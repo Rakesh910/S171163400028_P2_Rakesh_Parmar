@@ -164,7 +164,7 @@ public class BlogDaoImpl implements BlogDao {
 	public List<Blog> getAllBlogs() {
 		try {
 			log.debug("Starting of Method getAllBlogs");
-			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE blogStatus = 1");
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM Blog WHERE blogStatus = '1'");
 			log.debug("Starting of get BlogList");
 			@SuppressWarnings("unchecked")
 			List<Blog> list = query.list();
@@ -197,6 +197,38 @@ public class BlogDaoImpl implements BlogDao {
 			return true;
 		} catch (HibernateException e) {
 			log.error("Error Occured in approveBlog with (id = '"+blogId+"') "+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean bloglikes(String id) {
+		try {
+			log.debug("Starting Method forumlikes.");
+				sessionFactory.getCurrentSession().createQuery("Update Blog set blogLike = blogLike+1 where blogId = '"+id+"'").executeUpdate();
+			log.debug("Blog removed with Id:-"+id);
+			log.debug("Ending Method forumlikes.");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in forumlikes with (id = '"+id+"') "+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean blogdislikes(String id) {
+		try {
+			log.debug("Starting Method forumdislikes.");
+				sessionFactory.getCurrentSession().createQuery("Update Blog set blogDislike = blogDislike+1 where blogId = '"+id+"'").executeUpdate();
+			log.debug("Blog removed with Id:-"+id);
+			log.debug("Ending Method forumdislikes.");
+			return true;
+		} catch (HibernateException e) {
+			log.error("Error Occured in forumdislikes with (id = '"+id+"') "+e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
